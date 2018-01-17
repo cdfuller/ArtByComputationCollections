@@ -4,12 +4,13 @@ let cols, rows;
 let zOff = 0;
 
 let particles = [];
-let PARTICLE_COUNT = 1000;
+let PARTICLE_COUNT = 3000;
 
 let flowfield = [];
 
 function setup() {
   createCanvas(800, 800);
+  background(255);
   cols = floor(width / scl);
   rows = floor(height / scl);
 
@@ -21,7 +22,6 @@ function setup() {
 }
 
 function draw() {
-  background(255, 15);
 
   let yOff = 0;
 
@@ -34,22 +34,23 @@ function draw() {
       v.setMag(0.1);
       flowfield[idx] = v;
       xOff += inc;
-      stroke(0, 75);
-      strokeWeight(0.5);
-      push();
-      translate(x * scl, y * scl);
-      rotate(v.heading());
-      line(0, 0, scl, 0);
-      pop();
+      // Draw directions
+      // stroke(0, 75);
+      // strokeWeight(0.5);
+      // push();
+      // translate(x * scl, y * scl);
+      // rotate(v.heading());
+      // line(0, 0, scl, 0);
+      // pop();
     }
     yOff += inc;
   }
-  zOff += 0.015;
+  // zOff += 0.005;
 
   for (let i = 0; i < particles.length; i++) {
-    // particles[i].follow(flowfield);
-    // particles[i].update();
-    // particles[i].show();
+    particles[i].follow(flowfield);
+    particles[i].update();
+    particles[i].show();
   }
 }
 
@@ -62,8 +63,10 @@ function createField(rows, cols) {
 
 function mousePressed() {
   noLoop();
+  console.log("STOPPED");
 }
 
 function keyPressed() {
   loop();
+  console.log("STARTED");
 }

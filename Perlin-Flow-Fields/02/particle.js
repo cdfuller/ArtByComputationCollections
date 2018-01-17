@@ -4,7 +4,7 @@ function Particle(x, y) {
   this.acc = createVector(0, 0);
   this.maxSpeed = 1;
   this.age = 0;
-  this.lifetime = random(500, 1500);
+  this.lifetime = random(500, 2500);
 
   this.prevPos = this.pos.copy();
 
@@ -24,7 +24,7 @@ function Particle(x, y) {
       this.vel = createVector(0, 0);
       this.acc = createVector(0, 0);
       this.age = 0;
-      this.lifetime = random(1500);
+      this.lifetime = random(500, 2500);
     }
   }
 
@@ -41,7 +41,7 @@ function Particle(x, y) {
   }
 
   this.show = function showParticle() {
-    stroke(0, 5);
+    stroke(0, 10);
     strokeWeight(1);
     // point(this.pos.x, this.pos.y);
     line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
