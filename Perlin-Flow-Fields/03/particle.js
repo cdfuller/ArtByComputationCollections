@@ -32,16 +32,16 @@ function Particle(x, y) {
     this.acc.add(force);
   }
 
-  this.follow = function followParticle(field) {
-    let x = floor(this.pos.x / scl);
-    let y = floor(this.pos.y / scl);
-    let idx = x + y * cols;
-    let force = field[idx];
+  this.follow = function followParticle(flowfield) {
+    let x = floor(this.pos.x / flowfield.fieldSize);
+    let y = floor(this.pos.y / flowfield.fieldSize);
+    let idx = x + y * flowfield.cols;
+    let force = flowfield.field[idx];
     this.applyForce(force);
   }
 
   this.show = function showParticle() {
-    stroke(0, 10);
+    stroke(255, 20);
     strokeWeight(1);
     // point(this.pos.x, this.pos.y);
     line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
