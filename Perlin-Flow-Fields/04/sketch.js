@@ -23,32 +23,7 @@ function setup() {
 
 function draw() {
   flowfield.update();
-
-
-  // let yOff = 0;
-
-  // for (let y = 0; y < rows; y++) {
-  //   let xOff = 0;
-  //   for (let x = 0; x < cols; x++) {
-  //     let idx = x + y * cols
-  //     let r = noise(xOff, yOff, zOff);
-  //     let v = p5.Vector.fromAngle(r * TWO_PI);
-  //     v.setMag(0.1);
-  //     flowfield[idx] = v;
-  //     xOff += inc;
-  //     // Draw directions
-  //     // stroke(0, 75);
-  //     // strokeWeight(0.5);
-  //     // push();
-  //     // translate(x * scl, y * scl);
-  //     // rotate(v.heading());
-  //     // line(0, 0, scl, 0);
-  //     // pop();
-  //   }
-  //   yOff += inc;
-  // }
-  // zOff += 0.005;
-
+  
   for (let i = 0; i < particles.length; i++) {
     particles[i].follow(flowfield);
     particles[i].update();
@@ -57,12 +32,17 @@ function draw() {
 }
 
 
-function mousePressed() {
-  noLoop();
-  console.log("STOPPED");
-}
-
 function keyPressed() {
-  loop();
-  console.log("STARTED");
+  switch (key) {
+    case 'S':
+      loop();
+      console.log("Started looping");
+      break;
+    case ' ':
+      noLoop();
+      console.log("Stopped looping");
+      break;
+    default:
+      break;
+  }
 }
