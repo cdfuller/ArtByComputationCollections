@@ -1,10 +1,12 @@
 function Particle(x, y) {
   this.pos = createVector(x, y);
-  this.vel = createVector(0, 0);
+  this.vel = createVector(random(-TWO_PI, TWO_PI), random(-TWO_PI, TWO_PI));
   this.acc = createVector(0, 0);
   this.maxSpeed = 1;
-  this.age = 0;
-  this.lifetime = random(500, 2500);
+  this.lifetime = 1600;
+  this.age = random(this.lifetime);
+  this.strokeColor = 0;
+  this.strokeWeight = 1;
 
   this.prevPos = this.pos.copy();
 
@@ -18,13 +20,15 @@ function Particle(x, y) {
       this.edges();
       this.age += 1;
     } else {
-      // console.log(this.age);
-      this.pos = createVector(random(width), random(height));
+      // let start = random(starting_points);
+      let startX = random(width*0.15, width*0.85);
+      let startY = random(height*0.15, height*0.85);
+      this.pos = createVector(startX, startY);
       this.prevPos = this.pos.copy();
       this.vel = createVector(0, 0);
       this.acc = createVector(0, 0);
-      this.age = 0;
-      this.lifetime = random(500, 2500);
+      this.lifetime = 1600;
+      this.age = random(1600);
     }
   }
 
@@ -41,9 +45,12 @@ function Particle(x, y) {
   }
 
   this.show = function showParticle() {
-    stroke(255, 20);
-    strokeWeight(1);
-    // point(this.pos.x, this.pos.y);
+    if (frameCount % 1000 == 0) {
+      this.strokeColor = abs(this.strokeColor - 255);
+      this.strokeWeight = this.strokeWeight - 0.2;
+    }
+    stroke(this.strokeColor, 30);
+    strokeWeight(this.strokeWeight);
     line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
   }
 
