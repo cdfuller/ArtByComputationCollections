@@ -3,10 +3,11 @@ function Particle(x, y) {
   this.vel = createVector(random(-TWO_PI, TWO_PI), random(-TWO_PI, TWO_PI));
   this.acc = createVector(0, 0);
   this.maxSpeed = 1;
-  this.lifetime = 1600;
-  this.age = random(this.lifetime);
+  // this.lifetime = random(100, 2000);
+  this.lifetime = 2**32;
+  this.age = 0;
   this.strokeColor = 0;
-  this.strokeWeight = 1;
+  this.strokeWeight = 0.5;
 
   this.prevPos = this.pos.copy();
 
@@ -20,15 +21,20 @@ function Particle(x, y) {
       this.edges();
       this.age += 1;
     } else {
-      // let start = random(starting_points);
-      let startX = random(width*0.15, width*0.85);
-      let startY = random(height*0.15, height*0.85);
+      let startX, startY;
+      if (random(1) > 0.5) {
+        startX = map(random(width), 0, PARTICLE_COUNT, 0, width);
+        startY = map(random(height), 0, PARTICLE_COUNT, height, 0);
+      } else {
+        startX = map(random(width), 0, PARTICLE_COUNT, 0, width);
+        startY = map(random(height), 0, PARTICLE_COUNT, 0, height);
+      }
       this.pos = createVector(startX, startY);
       this.prevPos = this.pos.copy();
       this.vel = createVector(0, 0);
       this.acc = createVector(0, 0);
-      this.lifetime = 1600;
-      this.age = random(1600);
+      this.lifetime = random(100, 2000);
+      this.age = 0;
     }
   }
 
@@ -49,9 +55,11 @@ function Particle(x, y) {
       this.strokeColor = abs(this.strokeColor - 255);
       this.strokeWeight = this.strokeWeight - 0.2;
     }
-    stroke(this.strokeColor, 30);
-    strokeWeight(this.strokeWeight);
-    line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
+    if (this.age > 3 && frameCount > 100) {
+      stroke(this.strokeColor, 25);
+      strokeWeight(this.strokeWeight);
+      line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
+    }
   }
 
   this.edges = function() {

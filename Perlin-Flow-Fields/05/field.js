@@ -1,9 +1,10 @@
 function FlowField(fieldSize) {
-  let xyIncr = 0.1;
+  let xIncr = 0.01;
+  let yIncr = 0.01;
   let zIncr = 0.0;
   let zOff = 0.0;
 
-  this.fieldSize = fieldSize
+  this.fieldSize = fieldSize;
   this.cols = floor(width / this.fieldSize);
   this.rows = floor(height / this.fieldSize);
 
@@ -17,17 +18,18 @@ function FlowField(fieldSize) {
         let idx = x + (y * this.cols);
         let angle = generateFieldAngle(xOff, yOff, zOff);
         let v = p5.Vector.fromAngle(angle);
-        v.setMag(8);
+        v.setMag(0.07);
         this.field[idx] = v;
 
-        xOff += xyIncr;
+        xOff += xIncr;
       }
-      yOff += inc;
+      yOff += yIncr;
     }
 
-    if (frameCount % 500 == 0) {
-      // zOff += 0.3;
+    if (frameCount % 1000 == 0) {
+      // zOff += 0.2;
       console.log(frameCount);
+      zIncr = 0.0
     }
     zOff += zIncr;
   }
