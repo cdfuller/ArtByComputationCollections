@@ -1,7 +1,7 @@
-let FIELD_SIZE = 20;
+let FIELD_SIZE = 5;
 
 let particles = [];
-let PARTICLE_COUNT = 4000;
+let PARTICLE_COUNT = 2000;
 
 let flowfield;
 let starting_points;

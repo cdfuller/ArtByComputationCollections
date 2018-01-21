@@ -2,12 +2,12 @@ function Particle(x, y) {
   this.pos = createVector(x, y);
   this.vel = createVector(random(-TWO_PI, TWO_PI), random(-TWO_PI, TWO_PI));
   this.acc = createVector(0, 0);
-  this.maxSpeed = 2;
+  this.maxSpeed = 1;
   this.lifetime = random(1000, 2500);
   this.age = 0;
   this.strokeColor = 0;
   this.strokeAlpha = 20;
-  this.strokeWeight = 0.3;
+  this.strokeWeight = 1;
 
   this.prevPos = this.pos.copy();
 
@@ -53,7 +53,9 @@ function Particle(x, y) {
     if (this.age > 3 && frameCount > 0) {
       stroke(this.strokeColor, this.strokeAlpha);
       strokeWeight(this.strokeWeight);
-      line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
+      fill(255, this.strokeAlpha);
+      // line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
+      ellipse(this.pos.x, this.pos.y, 10, 10);
     }
   }
 
