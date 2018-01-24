@@ -1,18 +1,21 @@
-let FIELD_SIZE = 16;
+let FIELD_SIZE = 20;
 
 let particles = [];
-let PARTICLE_COUNT = 2000;
+let PARTICLE_COUNT = 250;
 let total_particles = PARTICLE_COUNT;
 
 let flowfield;
 let starting_points;
 
+// let maxDist;
+
 
 function setup() {
   createCanvas(800, 800);
+  colorMode(HSB)
   // background(0);
-  background([65, 0, 75, 255]);
-  // background(255);
+  // background([65, 0, 75, 255]);
+  background(201, 100, 34);
   noiseSeed(1002);
   noiseDetail(16); 
   starting_points = [
@@ -23,12 +26,10 @@ function setup() {
   ]
 
   flowfield = new FlowField(FIELD_SIZE);
-
-
+  // maxDist = ((width / 2) ** 2 + (height / 2) ** 2) ** 0.5;
 
   for (let i = 0; i < PARTICLE_COUNT; i++) {
-    let startX = random(width);
-    let startY = random(height);
+    let {startX, startY} = getStartPosition();
     let c = getColor();
     particles[i] = new Particle(startX, startY, c);
   }
@@ -43,31 +44,28 @@ function draw() {
     particles[i].show();
   }
   
-  if (frameCount % 100 == 0) {
-    printStatus();
+  if (frameCount % 250 == 0) {
+    printStatus();  
   }
+}
+
+function getStartPosition() {
+  let f = 6;
+  let startX = random(width / f, width / f * (f - 1));
+  let startY = random(height / f, height / f * (f - 1));
+  startX = startX + (width/f) * 0.5;
+  startY = startY + (height/f) * 0.5;
+  return {startX, startY};
 }
 
 
 function getColor() {
-  let a = 10;
+  let a = 8;
   let palette = [
-    [255, 0, 0, a],
-    [255, 0, 0, a],
-    [255, 0, 255, a],
-    [255, 0, 255, a],
-    [200, 0, 200, a],
-    [100, 0, 100, a],
-    [25, 0, 25, a],
-    [0, 0, 255, a],
-    [0, 0, 255, a],
-    [0, 0, 0, 3],
-    [0, 0, 0, 3],
-    [255, 255, 255, 3],
-    [255, 255, 255, 3],
+    [201, 0, 100, a],
   ]
   let c = random(palette);
-  c[3] = c[3] + 4;
+  // c[3] = c[3] + 4;
   return c;
 }
 

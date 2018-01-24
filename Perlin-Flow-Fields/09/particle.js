@@ -1,17 +1,17 @@
-MIN_LIFESPAN = 15
-MAX_LIFESPAN = 65
+MIN_LIFESPAN = 0
+MAX_LIFESPAN = 250
 
 function Particle(x, y, c) {
   this.pos = createVector(x, y);
   this.vel = createVector(random(-TWO_PI, TWO_PI), random(-TWO_PI, TWO_PI));
   this.acc = createVector(0, 0);
-  this.maxSpeed = 1.579;
+  this.maxSpeed = 1;
   this.diameter = 2;
   this.lifetime = random(MIN_LIFESPAN, MAX_LIFESPAN);
   this.age = 0;
   this.strokeColor = 0;
-  this.strokeAlpha = 40;
-  this.strokeWeight = 0.5;
+  this.strokeAlpha = 255;
+  this.strokeWeight = 0.15  ;
   this.color = c;
 
   this.prevPos = this.pos.copy();
@@ -26,9 +26,7 @@ function Particle(x, y, c) {
       this.edges();
       this.age += 1;
     } else {
-      let startX, startY;
-      startX = random(width);
-      startY = random(height);
+      let { startX, startY } = getStartPosition();
       this.pos = createVector(startX, startY);
       this.prevPos = this.pos.copy();
       this.vel = createVector(0, 0);
@@ -60,11 +58,12 @@ function Particle(x, y, c) {
     if (this.age > 2 && frameCount > 0) {
       stroke(this.color);
       strokeWeight(this.strokeWeight);
-      noStroke();
-      fill(this.color);
-      // noFill();
-      // line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
-      ellipse(this.pos.x, this.pos.y, this.diameter);
+      strokeJoin(ROUND);
+      line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
+      noFill();
+      // noStroke();
+      // fill(this.color);
+      // ellipse(this.pos.x, this.pos.y, this.diameter);
     }
   }
 
