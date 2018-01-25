@@ -1,17 +1,17 @@
-MIN_LIFESPAN = 0
-MAX_LIFESPAN = 250
+MIN_LIFESPAN = 300;
+MAX_LIFESPAN = 2500;
 
 function Particle(x, y, c) {
   this.pos = createVector(x, y);
   this.vel = createVector(random(-TWO_PI, TWO_PI), random(-TWO_PI, TWO_PI));
   this.acc = createVector(0, 0);
-  this.maxSpeed = 1;
+  this.maxSpeed = 0.5;
   this.diameter = 2;
   this.lifetime = random(MIN_LIFESPAN, MAX_LIFESPAN);
   this.age = 0;
   this.strokeColor = 0;
   this.strokeAlpha = 255;
-  this.strokeWeight = 0.15  ;
+  this.strokeWeight = 0.5 ;
   this.color = c;
 
   this.prevPos = this.pos.copy();
@@ -33,7 +33,7 @@ function Particle(x, y, c) {
       this.acc = createVector(0, 0);
       this.lifetime = random(MIN_LIFESPAN, MAX_LIFESPAN)
       this.age = 0;
-
+      this.color = getColor()
       total_particles++;
     }
   }
@@ -55,12 +55,14 @@ function Particle(x, y, c) {
     //   this.strokeColor = min(abs(this.strokeColor + 100), 255);
     //   this.strokeWeight = this.strokeWeight - 0.75;
     // }
-    if (this.age > 2 && frameCount > 0) {
+    if (this.age > 5 && frameCount > 0) {
+      // line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
+      let direction = p5.Vector.sub(this.prevPos, this.pos);
       stroke(this.color);
       strokeWeight(this.strokeWeight);
-      strokeJoin(ROUND);
-      line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
-      noFill();
+      drawArrow(this.pos.x, this.pos.y, direction.heading())
+      // strokeJoin(ROUND);
+      // noFill();
       // noStroke();
       // fill(this.color);
       // ellipse(this.pos.x, this.pos.y, this.diameter);
@@ -85,4 +87,17 @@ function Particle(x, y, c) {
       this.prevPos = this.pos.copy();
     }
   }
+}
+
+function drawArrow(x, y, heading) {
+  push();
+  translate(x, y);
+  rotate(heading);
+  let sideLength = 50;
+  // line(0, 0, sideLength, 0);
+  // rotate(0.523);
+  let angle = radians(90) / 2;
+  line(0, 0, cos(angle) * sideLength, sin(angle) * sideLength);
+  line(0, 0, cos(-angle) * sideLength, sin(-angle) * sideLength);
+  pop();
 }

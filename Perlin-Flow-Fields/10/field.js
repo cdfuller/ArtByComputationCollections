@@ -1,5 +1,5 @@
 function FlowField(fieldSize) {
-  let xIncr = 0.07;
+  let xIncr = 0.1;
   let yIncr = xIncr;
   let zIncr = 0.0;
   // let zOff = 10.02;
@@ -22,7 +22,7 @@ function FlowField(fieldSize) {
         let idx = x + (y * this.cols);
         let angle = generateFieldAngle(xOff, yOff, zOff);
         let v = p5.Vector.fromAngle(angle);
-        v.setMag(1);
+        v.setMag(0.5);
         this.field[idx] = v;
 
         xOff += xIncr;

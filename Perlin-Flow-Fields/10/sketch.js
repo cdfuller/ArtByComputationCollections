@@ -1,7 +1,7 @@
 let FIELD_SIZE = 20;
 
 let particles = [];
-let PARTICLE_COUNT = 250;
+let PARTICLE_COUNT = 20;
 let total_particles = PARTICLE_COUNT;
 
 let flowfield;
@@ -12,10 +12,8 @@ let starting_points;
 
 function setup() {
   createCanvas(800, 800);
-  colorMode(HSB)
-  // background(0);
-  // background([65, 0, 75, 255]);
-  background(201, 100, 34);
+  // colorMode(HSB)
+  background(255);
   noiseSeed(1002);
   noiseDetail(16); 
   starting_points = [
@@ -50,19 +48,30 @@ function draw() {
 }
 
 function getStartPosition() {
-  let f = 6;
-  let startX = random(width / f, width / f * (f - 1));
-  let startY = random(height / f, height / f * (f - 1));
-  startX = startX + (width/f) * 0.5;
-  startY = startY + (height/f) * 0.5;
+  let f = 8;
+  // let startX = random(width / f, width / f * (f - 1));
+  // let startY = random(height / f, height / f * (f - 1));
+  let startX = random(width);
+  let startY = random(height);
+  // startX = startX + (width/f) * 0.5;
+  // startY = startY + (height/f) * 0.5;
   return {startX, startY};
 }
 
 
 function getColor() {
-  let a = 8;
+  let a = 45  ;
   let palette = [
-    [201, 0, 100, a],
+    // [201, 0, 100, a],
+    [255, 51, 51, a-4],
+    [162, 239, 0, a],
+    [1, 147, 154, a+20],
+    [0, 204, 0, a],
+    [162, 239, 0, a],
+    [162, 239, 0, a],
+    [1, 147, 154, a+20],
+    [0, 204, 0, a],
+    [162, 239, 0, a],
   ]
   let c = random(palette);
   // c[3] = c[3] + 4;
@@ -102,3 +111,10 @@ function keyPressed() {
   }
 }
 
+function mousePressed() {
+  // let { startX, startY } = getStartPosition();
+  let c = getColor();
+  let p = new Particle(mouseX, mouseY, c);
+  particles.push(p);
+  total_particles++;
+}
