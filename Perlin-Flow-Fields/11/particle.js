@@ -5,7 +5,7 @@ function Particle(x, y, c) {
   this.pos = createVector(x, y);
   this.vel = createVector(random(-TWO_PI, TWO_PI), random(-TWO_PI, TWO_PI));
   this.acc = createVector(0, 0);
-  this.maxSpeed = 0.5;
+  this.maxSpeed = 1;
   this.diameter = 2;
   this.lifetime = random(MIN_LIFESPAN, MAX_LIFESPAN);
   this.age = 0;
@@ -60,11 +60,11 @@ function Particle(x, y, c) {
       let direction = p5.Vector.sub(this.prevPos, this.pos);
       stroke(this.color);
       strokeWeight(this.strokeWeight);
-      drawArrow(this.pos.x, this.pos.y, direction.heading())
+      drawShape(this.pos.x, this.pos.y, direction.heading())
       // strokeJoin(ROUND);
       // noFill();
       // noStroke();
-      // fill(this.color);
+      fill(this.color);
       // ellipse(this.pos.x, this.pos.y, this.diameter);
     }
   }
@@ -89,15 +89,15 @@ function Particle(x, y, c) {
   }
 }
 
-function drawArrow(x, y, heading) {
+function drawShape(x, y, heading) {
   push();
   translate(x, y);
   rotate(heading);
-  let sideLength = 50;
-  // line(0, 0, sideLength, 0);
-  // rotate(0.523);
-  let angle = radians(90) / 2;
-  line(0, 0, cos(angle) * sideLength, sin(angle) * sideLength);
-  line(0, 0, cos(-angle) * sideLength, sin(-angle) * sideLength);
+  beginShape();
+  vertex(0, 20);
+  vertex(20, 20);
+  vertex(20, 0);
+  vertex(0, 0);
+  endShape(CLOSE);
   pop();
 }

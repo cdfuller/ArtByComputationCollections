@@ -1,7 +1,7 @@
-let FIELD_SIZE = 20;
+let FIELD_SIZE = 50;
 
 let particles = [];
-let PARTICLE_COUNT = 20;
+let PARTICLE_COUNT = 500;
 let total_particles = PARTICLE_COUNT;
 
 let flowfield;
@@ -60,18 +60,12 @@ function getStartPosition() {
 
 
 function getColor() {
-  let a = 45  ;
+  let a = 255;
   let palette = [
-    // [201, 0, 100, a],
-    [255, 51, 51, a-4],
-    [162, 239, 0, a],
-    [1, 147, 154, a+20],
-    [0, 204, 0, a],
-    [162, 239, 0, a],
-    [162, 239, 0, a],
-    [1, 147, 154, a+20],
-    [0, 204, 0, a],
-    [162, 239, 0, a],
+    [76, 175, 80, a],
+    [124, 77, 255, a],
+    [3, 169, 244, a],
+    [255, 235, 59, a],
   ]
   let c = random(palette);
   // c[3] = c[3] + 4;
