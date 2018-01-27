@@ -1,7 +1,7 @@
 let FIELD_SIZE = 50;
 
 let particles = [];
-let PARTICLE_COUNT = 500;
+let PARTICLE_COUNT = 3000;
 let total_particles = PARTICLE_COUNT;
 
 let flowfield;
@@ -12,7 +12,7 @@ let starting_points;
 
 function setup() {
   createCanvas(800, 800);
-  // colorMode(HSB)
+  colorMode(HSB)
   background(255);
   noiseSeed(1002);
   noiseDetail(16); 
@@ -28,7 +28,7 @@ function setup() {
 
   for (let i = 0; i < PARTICLE_COUNT; i++) {
     let {startX, startY} = getStartPosition();
-    let c = getColor();
+    let c = getColor(startX, startY);
     particles[i] = new Particle(startX, startY, c);
   }
 }
@@ -48,42 +48,52 @@ function draw() {
 }
 
 function getStartPosition() {
-  let f = 8;
+  // constrain to the f-2 center
+  // let f = 8;
   // let startX = random(width / f, width / f * (f - 1));
   // let startY = random(height / f, height / f * (f - 1));
-  let startX = random(width);
-  let startY = random(height);
+  // offset - bottom right
   // startX = startX + (width/f) * 0.5;
   // startY = startY + (height/f) * 0.5;
+  let startX = random(width);
+  let startY = random(height);
   return {startX, startY};
 }
 
 
-function getColor() {
+function getColor(x, y, z) {
   let a = 255;
-  let palette = [
-    [76, 175, 80, a],
-    [124, 77, 255, a],
-    [3, 169, 244, a],
-    [255, 235, 59, a],
-  ]
-  let c = random(palette);
+  let inc = 2.101;
+  let offset = 0;
+  let c = noise(x*inc, y*inc, z*inc) * 360 + offset;
+  // let palette = [
+  //   [76, 175, 80, a],
+  //   [124, 77, 255, a],
+  //   [3, 169, 244, a],
+  //   [255, 235, 59, a],
+  // ]
+  // let c = random(palette);
   // c[3] = c[3] + 4;
-  return c;
+  return [c, 95, int(random(83, 87)), a];
 }
 
 function printStatus() {
   let fc = frameCount
-  let avg = averageAge().toFixed(2);
-  let ls = averageLifespan().toFixed(2);
+  let avg = averageAge().toFixed(1);
+  let ls = averageLifespan().toFixed(1);
+  let gen = averageGeneration().toFixed(1);
   let tot = total_particles;
-  let fr = frameRate().toFixed(2);
-  let s = `${fc}\tavg: ${avg} ls: ${ls} total: ${tot} fr: ${fr}`
+  let fr = frameRate().toFixed(1);
+  let s = `${fc}\tavg: ${avg} ls: ${ls} gen: ${gen} total: ${tot} fr: ${fr}`
   console.log(s);
 }
 
 function averageAge() {
   return particles.reduce((prev, curr) => prev + int(curr.age), 0) / particles.length;
+}
+
+function averageGeneration() {
+  return particles.reduce((prev, curr) => prev + int(curr.generation), 0) / particles.length;
 }
 
 function averageLifespan() {
@@ -107,7 +117,7 @@ function keyPressed() {
 
 function mousePressed() {
   // let { startX, startY } = getStartPosition();
-  let c = getColor();
+  let c = getColor(mouseX, mouseY, 0);
   let p = new Particle(mouseX, mouseY, c);
   particles.push(p);
   total_particles++;
