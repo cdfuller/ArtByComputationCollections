@@ -1,11 +1,11 @@
 let FIELD_SIZE = 50;
 
 let particles = [];
-let PARTICLE_COUNT = 3000;
+let PARTICLE_COUNT = 25;
 let total_particles = PARTICLE_COUNT;
 
 let flowfield;
-let starting_points;
+let starting_points = [];
 
 // let maxDist;
 
@@ -13,21 +13,19 @@ let starting_points;
 function setup() {
   createCanvas(800, 800);
   colorMode(HSB)
+  ellipseMode(CENTER);
   background(255);
   noiseSeed(1002);
-  noiseDetail(16); 
-  starting_points = [
-    {x: width/4, y: height/4},
-    {x: width/4*3, y: height/4},
-    {x: width/4*3, y: height/4*3},
-    {x: width/4, y: height/4*3},
-  ]
+  noiseDetail(8, 0.10); 
+  frameRate(120);
 
   flowfield = new FlowField(FIELD_SIZE);
   // maxDist = ((width / 2) ** 2 + (height / 2) ** 2) ** 0.5;
 
+  starting_points = generateStartPositions(flowfield);
+
   for (let i = 0; i < PARTICLE_COUNT; i++) {
-    let {startX, startY} = getStartPosition();
+    let {startX, startY} = getStartPosition(flowfield);
     let c = getColor(startX, startY);
     particles[i] = new Particle(startX, startY, c);
   }
@@ -38,16 +36,16 @@ function draw() {
 
   for (let i = 0; i < particles.length; i++) {
     particles[i].follow(flowfield);
-    particles[i].update();
+    particles[i].update(flowfield);
     particles[i].show();
   }
   
-  if (frameCount % 250 == 0) {
-    printStatus();  
+  if (frameCount % 500 == 0) {
+    printStatus();
   }
 }
 
-function getStartPosition() {
+function getStartPosition(field) {
   // constrain to the f-2 center
   // let f = 8;
   // let startX = random(width / f, width / f * (f - 1));
@@ -55,16 +53,35 @@ function getStartPosition() {
   // offset - bottom right
   // startX = startX + (width/f) * 0.5;
   // startY = startY + (height/f) * 0.5;
-  let startX = random(width);
-  let startY = random(height);
+  if (starting_points.length == 0) {
+    console.log('generating');
+    starting_points = generateStartPositions(field);
+  }
+  let {startX, startY} = starting_points.pop(Math.floor(random(starting_points.length)))
+  // let startX = random(width);
+  // let startY = random(height);
   return {startX, startY};
 }
 
+function generateStartPositions(field) {
+  positions = [];
+  for (let i = 0; i < field.rows; i++) {
+    for (let j = 0; j < field.cols; j++) {
+      positions.push({
+        startX: j * field.fieldSize,
+        startY: i * field.fieldSize
+      })
+    }
+  }
+  return positions;
+}
 
 function getColor(x, y, z) {
-  let a = 255;
+  let a = 10;
   let inc = 2.101;
-  let offset = 0;
+  let base  = random(2) > 1 ? 0 : 120
+  let offset = base;
+  // let offset = 0;
   let c = noise(x*inc, y*inc, z*inc) * 360 + offset;
   // let palette = [
   //   [76, 175, 80, a],
@@ -115,10 +132,10 @@ function keyPressed() {
   }
 }
 
-function mousePressed() {
-  // let { startX, startY } = getStartPosition();
-  let c = getColor(mouseX, mouseY, 0);
-  let p = new Particle(mouseX, mouseY, c);
-  particles.push(p);
-  total_particles++;
-}
+// function mousePressed() {
+//   // let { startX, startY } = getStartPosition();
+//   let c = getColor(mouseX, mouseY, 0);
+//   let p = new Particle(mouseX, mouseY, c);
+//   particles.push(p);
+//   total_particles++;
+// }

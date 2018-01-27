@@ -1,4 +1,4 @@
-MIN_LIFESPAN = 35;
+MIN_LIFESPAN = 10;
 MAX_LIFESPAN = 120;
 
 function Particle(x, y, c) {
@@ -6,7 +6,7 @@ function Particle(x, y, c) {
   this.vel = createVector(random(-TWO_PI, TWO_PI), random(-TWO_PI, TWO_PI));
   this.acc = createVector(0, 0);
   this.maxSpeed = 1;
-  this.diameter = 2;
+  this.diameter = FIELD_SIZE;
   this.lifetime = random(MIN_LIFESPAN, MAX_LIFESPAN);
   this.age = 0;
   this.generation = 0;
@@ -17,7 +17,7 @@ function Particle(x, y, c) {
 
   this.prevPos = this.pos.copy();
 
-  this.update = function updateParticle() {
+  this.update = function updateParticle(field) {
     if (this.age < this.lifetime) {
       this.vel.add(this.acc);
       this.vel.limit(this.maxSpeed);
@@ -27,7 +27,7 @@ function Particle(x, y, c) {
       this.edges();
       this.age += 1;
     } else {
-      let { startX, startY } = getStartPosition();
+      let { startX, startY } = getStartPosition(field);
       this.pos = createVector(startX, startY);
       this.prevPos = this.pos.copy();
       this.vel = createVector(0, 0);
@@ -45,10 +45,11 @@ function Particle(x, y, c) {
   }
 
   this.follow = function followParticle(flowfield) {
-    let x = floor(this.pos.x / flowfield.fieldSize);
-    let y = floor(this.pos.y / flowfield.fieldSize);
-    let idx = x + y * flowfield.cols;
-    let force = flowfield.field[idx];
+    // let x = floor(this.pos.x / flowfield.fieldSize);
+    // let y = floor(this.pos.y / flowfield.fieldSize);
+    // let idx = x + y * flowfield.cols;
+    // let force = flowfield.field[idx];
+    let force = flowfield.getVector(this.pos.x, this.pos.y);
     this.applyForce(force);
   }
 
@@ -61,13 +62,13 @@ function Particle(x, y, c) {
       // let direction = p5.Vector.sub(this.prevPos, this.pos);
       stroke(this.color);
       strokeWeight(this.strokeWeight);
-      line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
+      // line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
       // drawShape(this.pos.x, this.pos.y, direction.heading())
       // strokeJoin(ROUND);
-      // noFill();
+      noFill();
       // noStroke();
       // fill(this.color);
-      // ellipse(this.pos.x, this.pos.y, this.diameter);
+      ellipse(this.pos.x, this.pos.y, this.diameter);
     }
   }
 
