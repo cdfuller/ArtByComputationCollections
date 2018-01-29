@@ -1,5 +1,5 @@
 MIN_LIFESPAN = 10;
-MAX_LIFESPAN = 120;
+MAX_LIFESPAN = 250;
 
 function Particle(x, y, c) {
   this.pos = createVector(x, y);
@@ -45,30 +45,22 @@ function Particle(x, y, c) {
   }
 
   this.follow = function followParticle(flowfield) {
-    // let x = floor(this.pos.x / flowfield.fieldSize);
-    // let y = floor(this.pos.y / flowfield.fieldSize);
-    // let idx = x + y * flowfield.cols;
-    // let force = flowfield.field[idx];
     let force = flowfield.getVector(this.pos.x, this.pos.y);
     this.applyForce(force);
   }
 
   this.show = function showParticle() {
-    // if (frameCount > 0 && frameCount % 500 == 0) {
-    //   this.strokeColor = min(abs(this.strokeColor + 100), 255);
-    //   this.strokeWeight = this.strokeWeight - 0.75;
-    // }
     if (this.age > 5 && frameCount > 0) {
       // let direction = p5.Vector.sub(this.prevPos, this.pos);
       stroke(this.color);
       strokeWeight(this.strokeWeight);
-      // line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
+      strokeJoin(ROUND);
+      line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
       // drawShape(this.pos.x, this.pos.y, direction.heading())
-      // strokeJoin(ROUND);
       noFill();
       // noStroke();
       // fill(this.color);
-      ellipse(this.pos.x, this.pos.y, this.diameter);
+      // ellipse(this.pos.x, this.pos.y, this.diameter);
     }
   }
 

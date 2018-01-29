@@ -1,7 +1,7 @@
-let FIELD_SIZE = 50;
+let FIELD_SIZE = 5;
 
 let particles = [];
-let PARTICLE_COUNT = 25;
+let PARTICLE_COUNT = 2500;
 let total_particles = PARTICLE_COUNT;
 
 let flowfield;
@@ -78,9 +78,9 @@ function generateStartPositions(field) {
 
 function getColor(x, y, z) {
   let a = 10;
-  let inc = 2.101;
-  let base  = random(2) > 1 ? 0 : 120
-  let offset = base;
+  let inc = 0.101;
+  let base  = random(2) > 1 ? 0 : 30
+  let offset = base + 120;
   // let offset = 0;
   let c = noise(x*inc, y*inc, z*inc) * 360 + offset;
   // let palette = [
