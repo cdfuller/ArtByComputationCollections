@@ -1,5 +1,5 @@
-MIN_LIFESPAN = 10;
-MAX_LIFESPAN = 250;
+MIN_LIFESPAN = 25;
+MAX_LIFESPAN = 750;
 
 function Particle(x, y, c) {
   this.pos = createVector(x, y);
@@ -23,6 +23,7 @@ function Particle(x, y, c) {
       this.vel.limit(this.maxSpeed);
       this.prevPos = this.pos.copy();
       this.pos.add(this.vel);
+      this.color = getColor(this.pos.heading())
       this.acc.mult(0);
       this.edges();
       this.age += 1;
@@ -35,7 +36,7 @@ function Particle(x, y, c) {
       this.lifetime = random(MIN_LIFESPAN, MAX_LIFESPAN)
       this.age = 0;
       this.generation += 1;
-      this.color = getColor(startX, startY, this.generation);
+      // this.color = getColor(startX, startY, this.generation);
       total_particles++;
     }
   }

@@ -1,4 +1,4 @@
-let FIELD_SIZE = 5;
+let FIELD_SIZE = 8;
 
 let particles = [];
 let PARTICLE_COUNT = 2500;
@@ -7,6 +7,7 @@ let total_particles = PARTICLE_COUNT;
 let flowfield;
 let starting_points = [];
 
+let avgGen = 0;
 // let maxDist;
 
 
@@ -14,15 +15,13 @@ function setup() {
   createCanvas(800, 800);
   colorMode(HSB)
   ellipseMode(CENTER);
-  background(255);
+  background(0);
   noiseSeed(1002);
-  noiseDetail(8, 0.10); 
-  frameRate(120);
 
   flowfield = new FlowField(FIELD_SIZE);
   // maxDist = ((width / 2) ** 2 + (height / 2) ** 2) ** 0.5;
 
-  starting_points = generateStartPositions(flowfield);
+  // starting_points = generateStartPositions(flowfield);
 
   for (let i = 0; i < PARTICLE_COUNT; i++) {
     let {startX, startY} = getStartPosition(flowfield);
@@ -40,7 +39,7 @@ function draw() {
     particles[i].show();
   }
   
-  if (frameCount % 500 == 0) {
+  if (frameCount % 100 == 0) {
     printStatus();
   }
 }
@@ -53,13 +52,13 @@ function getStartPosition(field) {
   // offset - bottom right
   // startX = startX + (width/f) * 0.5;
   // startY = startY + (height/f) * 0.5;
-  if (starting_points.length == 0) {
-    console.log('generating');
-    starting_points = generateStartPositions(field);
-  }
-  let {startX, startY} = starting_points.pop(Math.floor(random(starting_points.length)))
-  // let startX = random(width);
-  // let startY = random(height);
+  // if (starting_points.length == 0) {
+  //   console.log('generating');
+  //   starting_points = generateStartPositions(field);
+  // }
+  // let {startX, startY} = starting_points.pop(Math.floor(random(starting_points.length)))
+  let startX = random(width);
+  let startY = random(height);
   return {startX, startY};
 }
 
@@ -73,25 +72,16 @@ function generateStartPositions(field) {
       })
     }
   }
-  return positions;
+  return shuffle(positions);
 }
 
-function getColor(x, y, z) {
-  let a = 10;
-  let inc = 0.101;
-  let base  = random(2) > 1 ? 0 : 30
-  let offset = base + 120;
-  // let offset = 0;
-  let c = noise(x*inc, y*inc, z*inc) * 360 + offset;
-  // let palette = [
-  //   [76, 175, 80, a],
-  //   [124, 77, 255, a],
-  //   [3, 169, 244, a],
-  //   [255, 235, 59, a],
-  // ]
-  // let c = random(palette);
-  // c[3] = c[3] + 4;
-  return [c, 95, int(random(83, 87)), a];
+function getColor(h) {
+  let a = 0.1
+  h = h + avgGen/10 + 150;
+  // h = h + 160 
+  h = h % TWO_PI;
+  let c = map(h, 0, TWO_PI, 0, 360);
+  return [c, 90, 85, a];
 }
 
 function printStatus() {
@@ -110,7 +100,8 @@ function averageAge() {
 }
 
 function averageGeneration() {
-  return particles.reduce((prev, curr) => prev + int(curr.generation), 0) / particles.length;
+  avgGen = particles.reduce((prev, curr) => prev + int(curr.generation), 0) / particles.length;
+  return avgGen;
 }
 
 function averageLifespan() {
