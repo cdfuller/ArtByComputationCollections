@@ -15,7 +15,7 @@ function setup() {
   createCanvas(800, 800);
   colorMode(HSB)
   ellipseMode(CENTER);
-  // background(0);
+  background(255);
   noiseSeed(1002);
 
   flowfield = new FlowField(FIELD_SIZE);
