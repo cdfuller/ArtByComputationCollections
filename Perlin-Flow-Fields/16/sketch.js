@@ -15,7 +15,7 @@ function setup() {
   createCanvas(800, 800);
   colorMode(HSB)
   ellipseMode(CENTER);
-  background(0);
+  // background(0);
   noiseSeed(1002);
 
   flowfield = new FlowField(FIELD_SIZE);
@@ -76,11 +76,14 @@ function generateStartPositions(field) {
 }
 
 function getColor(h) {
-  let a = 0.1
-  h = h + avgGen/10 + 150;
+  let a = 0.3;
+  // h = h + avgGen/10;
   // h = h + 160 
-  h = h % TWO_PI;
+  let offset = 45;
+  h = abs((h + offset) % TWO_PI);
   let c = map(h, 0, TWO_PI, 0, 360);
+  // c = c + 125
+  // c = c % 360
   return [c, 90, 85, a];
 }
 
