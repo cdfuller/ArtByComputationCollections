@@ -1,18 +1,18 @@
 MIN_LIFESPAN = 15;
-MAX_LIFESPAN = 120;
+MAX_LIFESPAN = 45;
 
 function Particle(x, y, c) {
   this.pos = createVector(x, y);
   this.vel = createVector(random(-TWO_PI, TWO_PI), random(-TWO_PI, TWO_PI));
   this.acc = createVector(0, 0);
   this.maxSpeed = 1;
-  this.diameter = FIELD_SIZE;
+  this.diameter = 3;
   this.lifetime = random(MIN_LIFESPAN, MAX_LIFESPAN);
   this.age = 0;
   this.generation = 0;
   this.strokeColor = 0;
   this.strokeAlpha = 255;
-  this.strokeWeight = 3.9;
+  this.strokeWeight = 0.2;
   this.color = c;
 
   this.prevPos = this.pos.copy();
@@ -25,12 +25,12 @@ function Particle(x, y, c) {
       let h = this.direction.heading();
       this.prevPos = this.pos.copy();
       this.pos.add(this.vel);
-      this.color = getColor(h)
       this.acc.mult(0);
       this.edges();
       this.age += 1;
     } else {
       let { startX, startY } = getStartPosition(field);
+      this.color = getColor()
       this.pos = createVector(startX, startY);
       this.prevPos = this.pos.copy();
       this.vel = createVector(0, 0);

@@ -1,4 +1,4 @@
-let FIELD_SIZE = 8;
+let FIELD_SIZE = 80;
 
 let particles = [];
 let PARTICLE_COUNT = 2500;
@@ -13,9 +13,9 @@ let avgGen = 0;
 
 function setup() {
   createCanvas(800, 800);
-  colorMode(HSB)
+  // colorMode(HSB)
   ellipseMode(CENTER);
-  background(255);
+  background(0);
   noiseSeed(1002);
 
   flowfield = new FlowField(FIELD_SIZE);
@@ -76,15 +76,21 @@ function generateStartPositions(field) {
 }
 
 function getColor(h) {
-  let a = 0.03;
+  let a = 100;
   // h = h + avgGen/10;
   // h = h + 160 
-  let offset = 145
-  h = abs((h + offset) % TWO_PI);
-  let c = map(h, 0, TWO_PI, 0, 360);
+  // let offset = 111;
+  // h = abs((h + offset) % TWO_PI);
+  // let c = map(h, 0, TWO_PI, 0, 360);
   // c = c + 125
   // c = c % 360
-  return [c, 90, 85, a];
+  let palatte = [
+    [4, 32, 148, a],
+    // [0, 0, 0, a],
+  ]
+  let c = random(palatte);
+  return c;
+  // return [c, 90, 85, a];
 }
 
 function printStatus() {
