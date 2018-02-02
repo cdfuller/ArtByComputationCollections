@@ -1,7 +1,8 @@
-let FIELD_SIZE = 80;
+const NUM_FRAMES = 2000;
+const FIELD_SIZE = 10;
 
 let particles = [];
-let PARTICLE_COUNT = 2500;
+const PARTICLE_COUNT = 50;
 let total_particles = PARTICLE_COUNT;
 
 let flowfield;
@@ -15,7 +16,7 @@ function setup() {
   createCanvas(800, 800);
   // colorMode(HSB)
   ellipseMode(CENTER);
-  background(0);
+  background(255);
   noiseSeed(1002);
 
   flowfield = new FlowField(FIELD_SIZE);
@@ -41,6 +42,9 @@ function draw() {
   
   if (frameCount % 100 == 0) {
     printStatus();
+  }
+  if (frameCount == NUM_FRAMES) {
+    // noLoop();
   }
 }
 
@@ -76,7 +80,7 @@ function generateStartPositions(field) {
 }
 
 function getColor(h) {
-  let a = 100;
+  let a = 255;
   // h = h + avgGen/10;
   // h = h + 160 
   // let offset = 111;
@@ -85,8 +89,7 @@ function getColor(h) {
   // c = c + 125
   // c = c % 360
   let palatte = [
-    [4, 32, 148, a],
-    // [0, 0, 0, a],
+    [0, 0, 0, a],
   ]
   let c = random(palatte);
   return c;
