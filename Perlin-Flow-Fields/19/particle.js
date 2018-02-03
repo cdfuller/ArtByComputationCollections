@@ -1,5 +1,5 @@
-MIN_LIFESPAN = 250;
-MAX_LIFESPAN = 1000;
+MIN_LIFESPAN = 10;
+MAX_LIFESPAN = 300;
 
 function Particle(x, y, c) {
   this.pos = createVector(x, y);
@@ -12,7 +12,7 @@ function Particle(x, y, c) {
   this.generation = 0;
   this.strokeColor = 0;
   this.strokeAlpha = 255;
-  this.strokeWeight = 0.6;
+  this.strokeWeight = 0.4;
   this.color = c;
 
   this.prevPos = this.pos.copy();
@@ -29,7 +29,7 @@ function Particle(x, y, c) {
       this.edges();
       this.age += 1;
     } else {
-      let { startX, startY } = getStartPosition(field);
+      let { startX, startY } = nextStartPosition();
       this.color = getColor()
       this.pos = createVector(startX, startY);
       this.prevPos = this.pos.copy();
@@ -63,17 +63,17 @@ function Particle(x, y, c) {
       // noFill();
       // noStroke();
     }
-    if (this.age == 1) {
-      fill(255);
-      strokeWeight(this.strokeWeight);
-      stroke(this.color);
-      ellipse(this.pos.x, this.pos.y, this.diameter);
-    }
-    if (this.age == this.lifetime-1) {
-      fill(0);
-      strokeWeight(this.strokeWeight);
-      ellipse(this.pos.x, this.pos.y, this.diameter/2);
-    }
+    // if (this.age == 1) {
+    //   fill(255);
+    //   strokeWeight(this.strokeWeight);
+    //   stroke(this.color);
+    //   ellipse(this.pos.x, this.pos.y, this.diameter);
+    // }
+    // if (this.age == this.lifetime-1) {
+    //   fill(0);
+    //   strokeWeight(this.strokeWeight);
+    //   ellipse(this.pos.x, this.pos.y, this.diameter/2);
+    // }
   }
 
   this.edges = function() {

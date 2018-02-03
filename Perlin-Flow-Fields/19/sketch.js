@@ -1,5 +1,5 @@
 const NUM_FRAMES = 2000;
-const FIELD_SIZE = 10;
+const FIELD_SIZE = 8;
 
 let particles = [];
 const PARTICLE_COUNT = 50;
@@ -11,6 +11,16 @@ let starting_points = [];
 let avgGen = 0;
 // let maxDist;
 
+let img;
+
+function preload() {
+  let url = "print10thin.jpg"
+  img = loadImage(url, (img) => {
+    img.resize(400, 400)
+    starting_points = startPositionsFromImage(img);
+  });
+}
+
 
 function setup() {
   createCanvas(800, 800);
@@ -18,31 +28,36 @@ function setup() {
   ellipseMode(CENTER);
   background(255);
   noiseSeed(1002);
+  pixelDensity(1);
 
   flowfield = new FlowField(FIELD_SIZE);
   // maxDist = ((width / 2) ** 2 + (height / 2) ** 2) ** 0.5;
 
-  // starting_points = generateStartPositions(flowfield);
+  starting_points = startPositionsFromImage(img);
 
-  for (let i = 0; i < PARTICLE_COUNT; i++) {
-    let {startX, startY} = getStartPosition(flowfield);
+  for (let i = 0; i < starting_points.length; i++) {
+    // let {startX, startY} = getStartPosition(flowfield);
+    let {startX, startY} = starting_points[i];
     let c = getColor(startX, startY);
     particles[i] = new Particle(startX, startY, c);
   }
+  // image(img, 0, 0, img.width, img.height);
 }
 
 function draw() {
-  // flowfield.update();
+  // background(255, 0, 0);
+  flowfield.update();
 
   for (let i = 0; i < particles.length; i++) {
     particles[i].follow(flowfield);
     particles[i].update(flowfield);
     particles[i].show();
   }
-  
-  if (frameCount % 100 == 0) {
+
+  if (frameCount % 500 == 0) {
     printStatus();
   }
+
   if (frameCount == NUM_FRAMES) {
     // noLoop();
   }
@@ -79,8 +94,38 @@ function generateStartPositions(field) {
   return shuffle(positions);
 }
 
+function startPositionsFromImage(img) {
+  positions = [];
+  img.loadPixels();
+  for (let y = 0; y < img.width; y++) {
+    for (let x = 0; x < img.height; x++) {
+      let i = (x + (y * img.width)) * 4;
+      let r = img.pixels[i + 0];
+      let g = img.pixels[i + 1];
+      let b = img.pixels[i + 2];
+
+      let v = Math.max(r, g, b);
+
+      if (v < 20) {
+        let loc = {
+          startX: x*2,
+          startY: y*2,
+        }
+        positions.push(loc);
+      }
+    }
+  }
+  return positions;
+}
+
+let posIncrementor = 0;
+function nextStartPosition() {
+  // return starting_points[posIncrementor++ % starting_points.length];
+  return random(starting_points);
+}
+
 function getColor(h) {
-  let a = 255;
+  let a = 25;
   // h = h + avgGen/10;
   // h = h + 160 
   // let offset = 111;
