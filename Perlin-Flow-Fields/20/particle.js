@@ -1,5 +1,5 @@
-MIN_LIFESPAN = 10;
-MAX_LIFESPAN = 300;
+MIN_LIFESPAN = 100;
+MAX_LIFESPAN = 750;
 
 function Particle(x, y, c) {
   this.pos = createVector(x, y);
@@ -12,7 +12,7 @@ function Particle(x, y, c) {
   this.generation = 0;
   this.strokeColor = 0;
   this.strokeAlpha = 255;
-  this.strokeWeight = 0.4;
+  this.strokeWeight = 0.2;
   this.color = c;
 
   this.prevPos = this.pos.copy();
@@ -29,8 +29,8 @@ function Particle(x, y, c) {
       this.edges();
       this.age += 1;
     } else {
-      let { startX, startY } = nextStartPosition();
-      this.color = getColor()
+      let { startX, startY, particleColor } = nextStartPosition();
+      this.color = particleColor;
       this.pos = createVector(startX, startY);
       this.prevPos = this.pos.copy();
       this.vel = createVector(0, 0);
@@ -108,3 +108,4 @@ function drawShape(x, y, heading) {
   endShape(CLOSE);
   pop();
 }
+

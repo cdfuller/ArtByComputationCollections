@@ -1,5 +1,5 @@
 const NUM_FRAMES = 2000;
-const FIELD_SIZE = 8;
+const FIELD_SIZE = 10;
 
 let particles = [];
 const PARTICLE_COUNT = 50;
@@ -9,14 +9,14 @@ let flowfield;
 let starting_points = [];
 
 let avgGen = 0;
-// let maxDist;
 
 let img;
 
 function preload() {
-  let url = "print10thin.jpg"
+  let url = "rainbow-gradient.png"
   img = loadImage(url, (img) => {
-    img.resize(400, 400)
+    let scl = 8;
+    img.resize(800/scl, 800/scl);
     starting_points = startPositionsFromImage(img);
   });
 }
@@ -24,29 +24,22 @@ function preload() {
 
 function setup() {
   createCanvas(800, 800);
-  // colorMode(HSB)
-  ellipseMode(CENTER);
-  background(255);
+  background(0);
   noiseSeed(1002);
-  pixelDensity(1);
 
   flowfield = new FlowField(FIELD_SIZE);
-  // maxDist = ((width / 2) ** 2 + (height / 2) ** 2) ** 0.5;
 
-  starting_points = startPositionsFromImage(img);
 
   for (let i = 0; i < starting_points.length; i++) {
     // let {startX, startY} = getStartPosition(flowfield);
-    let {startX, startY} = starting_points[i];
-    let c = getColor(startX, startY);
-    particles[i] = new Particle(startX, startY, c);
+    let {startX, startY, particleColor} = starting_points[i];
+    // let c = getColor(startX, startY);
+    particles[i] = new Particle(startX, startY, particleColor);
   }
-  // image(img, 0, 0, img.width, img.height);
 }
 
 function draw() {
-  // background(255, 0, 0);
-  flowfield.update();
+  // flowfield.update();
 
   for (let i = 0; i < particles.length; i++) {
     particles[i].follow(flowfield);
@@ -54,7 +47,7 @@ function draw() {
     particles[i].show();
   }
 
-  if (frameCount % 500 == 0) {
+  if (frameCount % 100 == 0) {
     printStatus();
   }
 
@@ -71,11 +64,6 @@ function getStartPosition(field) {
   // offset - bottom right
   // startX = startX + (width/f) * 0.5;
   // startY = startY + (height/f) * 0.5;
-  // if (starting_points.length == 0) {
-  //   console.log('generating');
-  //   starting_points = generateStartPositions(field);
-  // }
-  // let {startX, startY} = starting_points.pop(Math.floor(random(starting_points.length)))
   let startX = random(width);
   let startY = random(height);
   return {startX, startY};
@@ -104,12 +92,14 @@ function startPositionsFromImage(img) {
       let g = img.pixels[i + 1];
       let b = img.pixels[i + 2];
 
-      let v = Math.max(r, g, b);
+      let sat = getSaturation([r, g, b, 255]);
 
-      if (v < 20) {
+      if (sat > 50) {
+        let scl = 8;
         let loc = {
-          startX: x*2,
-          startY: y*2,
+          startX: x*scl,
+          startY: y*scl,
+          particleColor: [r, g, b, 50],
         }
         positions.push(loc);
       }
@@ -124,21 +114,13 @@ function nextStartPosition() {
   return random(starting_points);
 }
 
-function getColor(h) {
+function getColor(startX, startY) {
   let a = 25;
-  // h = h + avgGen/10;
-  // h = h + 160 
-  // let offset = 111;
-  // h = abs((h + offset) % TWO_PI);
-  // let c = map(h, 0, TWO_PI, 0, 360);
-  // c = c + 125
-  // c = c % 360
   let palatte = [
     [0, 0, 0, a],
   ]
   let c = random(palatte);
   return c;
-  // return [c, 90, 85, a];
 }
 
 function printStatus() {
@@ -180,10 +162,21 @@ function keyPressed() {
   }
 }
 
-// function mousePressed() {
-//   // let { startX, startY } = getStartPosition();
-//   let c = getColor(mouseX, mouseY, 0);
-//   let p = new Particle(mouseX, mouseY, c);
-//   particles.push(p);
-//   total_particles++;
-// }
+function getSaturation(rgba) {
+  var red = rgba[0];
+  var green = rgba[1];
+  var blue = rgba[2];
+
+  var val = Math.max(red, green, blue);
+  var chroma = val - Math.min(red, green, blue);
+
+  var sat;
+  if (chroma === 0) {  // Return early if grayscale.
+    sat = 0;
+  }
+  else {
+    sat = chroma / val;
+  }
+
+  return int(sat * 100);
+};
