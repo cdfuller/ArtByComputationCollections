@@ -1,8 +1,8 @@
 const NUM_FRAMES = 2000;
-const FIELD_SIZE = 10;
+const FIELD_SIZE = 40;
 
 let particles = [];
-const PARTICLE_COUNT = 50;
+const PARTICLE_COUNT = 1000;
 let total_particles = PARTICLE_COUNT;
 
 let flowfield;
@@ -12,34 +12,37 @@ let avgGen = 0;
 
 let img;
 
-function preload() {
-  let url = "rainbow-gradient.png"
-  img = loadImage(url, (img) => {
-    let scl = 8;
-    img.resize(800/scl, 800/scl);
-    starting_points = startPositionsFromImage(img);
-  });
-}
+// function preload() {
+//   // let url = "flowers.jpg"
+//   let url = "rainbow-gradient.png"
+//   img = loadImage(url, (img) => {
+//     let scl = 8;
+//     img.resize(800/scl, 800/scl);
+//     starting_points = startPositionsFromImage(img);
+//   });
+// }
 
 
 function setup() {
   createCanvas(800, 800);
-  background(0);
+  background(255);
   noiseSeed(1002);
 
   flowfield = new FlowField(FIELD_SIZE);
 
+  // particles[0] = new Particle(width/2, height/2, getColor());
 
-  for (let i = 0; i < starting_points.length; i++) {
+
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
     // let {startX, startY} = getStartPosition(flowfield);
-    let {startX, startY, particleColor} = starting_points[i];
+    let { startX, startY, particleColor } = nextStartPosition();
     // let c = getColor(startX, startY);
     particles[i] = new Particle(startX, startY, particleColor);
   }
 }
 
 function draw() {
-  // flowfield.update();
+  flowfield.update();
 
   for (let i = 0; i < particles.length; i++) {
     particles[i].follow(flowfield);
@@ -96,10 +99,11 @@ function startPositionsFromImage(img) {
 
       if (sat > 50) {
         let scl = 8;
+        let a = 100;
         let loc = {
           startX: x*scl,
           startY: y*scl,
-          particleColor: [r, g, b, 50],
+          particleColor: [r, g, b, a],
         }
         positions.push(loc);
       }
@@ -111,11 +115,17 @@ function startPositionsFromImage(img) {
 let posIncrementor = 0;
 function nextStartPosition() {
   // return starting_points[posIncrementor++ % starting_points.length];
-  return random(starting_points);
+  // return random(starting_points);
+  let f = 8;
+  return {
+    startX: width/f*(f-1),
+    startY: height/f*(f-1),
+    particleColor: getColor(),
+  }
 }
 
 function getColor(startX, startY) {
-  let a = 25;
+  let a = 20;
   let palatte = [
     [0, 0, 0, a],
   ]

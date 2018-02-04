@@ -1,7 +1,7 @@
 function FlowField(fieldSize) {
-  let xIncr = 0.06;
+  let xIncr = 0.01;
   let yIncr = xIncr;
-  let zIncr = 0.0;
+  let zIncr = 0.01;
   // let zOff = 10.02;
   let zOff = 0.0;
 
@@ -30,12 +30,12 @@ function FlowField(fieldSize) {
       yOff += yIncr;
     }
 
-    if (frameCount % 500 == 0) {
+    if (frameCount % 10 == 0) {
       // zOff += 0.2;
       // console.log(frameCount);
       // zIncr = 0.0
+      zOff += zIncr;
     }
-    zOff += zIncr;
   }
 
   this.update();
@@ -67,7 +67,7 @@ function FlowField(fieldSize) {
 
   function generateFieldAngle(xOff, yOff, zOff) {
     let n = noise(xOff, yOff, zOff); // 0 < n < 1
-    // let f = 5;
+    // let f = 4;
     // n = floor(n * f) / f;
     return - n * TWO_PI;
   }
