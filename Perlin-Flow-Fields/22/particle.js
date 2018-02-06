@@ -1,18 +1,18 @@
-MIN_LIFESPAN = 300;
-MAX_LIFESPAN = 1000;
+MIN_LIFESPAN = 10000-1;
+MAX_LIFESPAN = 10000;
 
 function Particle(x, y, c) {
   this.pos = createVector(x, y);
   this.vel = createVector(random(-TWO_PI, TWO_PI), random(-TWO_PI, TWO_PI));
   this.acc = createVector(0, 0);
   this.maxSpeed = 1;
-  this.diameter = 10;
+  this.diameter = 4;
   this.lifetime = int(random(MIN_LIFESPAN, MAX_LIFESPAN));
   this.age = 0;
   this.generation = 0;
   this.strokeColor = 0;
   this.strokeAlpha = 255;
-  this.strokeWeight = 0.2;
+  this.strokeWeight = 0.7;
   this.color = c;
 
   this.prevPos = this.pos.copy();
@@ -27,9 +27,10 @@ function Particle(x, y, c) {
       this.pos.add(this.vel);
       this.acc.mult(0);
       this.edges();
+      // this.diameter -= 0.04;
       this.age += 1;
     } else {
-      let { startX, startY, particleColor } = nextStartPosition();
+      let { startX, startY, particleColor } = nextStartState();
       this.color = particleColor
       this.pos = createVector(startX, startY);
       this.prevPos = this.pos.copy();
@@ -38,6 +39,7 @@ function Particle(x, y, c) {
       this.lifetime = int(random(MIN_LIFESPAN, MAX_LIFESPAN))
       this.age = 0;
       this.generation += 1;
+      // this.diameter = 4;
       // this.color = getColor(startX, startY, this.generation);
       total_particles++;
     }
@@ -53,17 +55,16 @@ function Particle(x, y, c) {
   }
 
   this.show = function showParticle() {
-    if (this.age > 6 && frameCount > 0) {
-      // let direction = p5.Vector.sub(this.prevPos, this.pos);
+    if (this.age > 10 && frameCount > 0) {
+      let direction = p5.Vector.sub(this.prevPos, this.pos);
       // stroke(this.color[0], this.color[1], this.color[2], 255);
       stroke(this.color);
       strokeWeight(this.strokeWeight);
-      strokeJoin(ROUND);
-      strokeCap(ROUND)
-      // noFill();
-      // fill(255);
+      noFill();
+      // fill(this.color);
       // ellipse(this.pos.x, this.pos.y, this.diameter)
       line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
+      // rect(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
       // drawShape(this.pos.x, this.pos.y, direction.heading())
       // noStroke();
     }
@@ -105,11 +106,12 @@ function drawShape(x, y, heading) {
   translate(x, y);
   rotate(heading);
   beginShape();
-  vertex(0, 20);
-  vertex(20, 20);
-  vertex(20, 0);
   vertex(0, 0);
+  curveVertex(0, 10);
+  curveVertex(0, -10);
+  vertex(10, 0);
   endShape(CLOSE);
+  // endShape();
   pop();
 }
 

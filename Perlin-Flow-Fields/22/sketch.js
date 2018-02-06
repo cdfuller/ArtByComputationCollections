@@ -1,8 +1,8 @@
 const NUM_FRAMES = 2000;
-const FIELD_SIZE = 40;
+const FIELD_SIZE = 20;
 
 let particles = [];
-const PARTICLE_COUNT = 1000;
+const PARTICLE_COUNT = 2000;
 let total_particles = PARTICLE_COUNT;
 
 let flowfield;
@@ -10,39 +10,35 @@ let starting_points = [];
 
 let avgGen = 0;
 
-let img;
-
-// function preload() {
-//   // let url = "flowers.jpg"
-//   let url = "rainbow-gradient.png"
-//   img = loadImage(url, (img) => {
-//     let scl = 8;
-//     img.resize(800/scl, 800/scl);
-//     starting_points = startPositionsFromImage(img);
-//   });
-// }
-
+function preload() {
+  let url = "Purple Forest Color Palette - color-hex.com.png"
+  img = loadImage(url, (img) => {
+    let scl = 2;
+    img.resize(800 / scl, 800 / scl);
+    starting_points = startPositionsFromImage(img);
+    shuffle(starting_points);
+  });
+}
 
 function setup() {
   createCanvas(800, 800);
+  // colorMode(HSB)
   background(255);
+  // background(254, 251, 254);
   noiseSeed(1002);
+  rectMode(CORNERS);
 
   flowfield = new FlowField(FIELD_SIZE);
 
-  // particles[0] = new Particle(width/2, height/2, getColor());
-
-
   for (let i = 0; i < PARTICLE_COUNT; i++) {
     // let {startX, startY} = getStartPosition(flowfield);
-    let { startX, startY, particleColor } = nextStartPosition();
-    // let c = getColor(startX, startY);
+    let { startX, startY, particleColor } = nextStartState();
     particles[i] = new Particle(startX, startY, particleColor);
   }
 }
 
 function draw() {
-  flowfield.update();
+  // flowfield.update();
 
   for (let i = 0; i < particles.length; i++) {
     particles[i].follow(flowfield);
@@ -59,16 +55,22 @@ function draw() {
   }
 }
 
-function getStartPosition(field) {
+function getInsetStartPosition(divisions, offset=false) {
+  let startX, startY;
   // constrain to the f-2 center
-  // let f = 8;
-  // let startX = random(width / f, width / f * (f - 1));
-  // let startY = random(height / f, height / f * (f - 1));
-  // offset - bottom right
-  // startX = startX + (width/f) * 0.5;
-  // startY = startY + (height/f) * 0.5;
-  let startX = random(width);
-  let startY = random(height);
+  if (divisions > 0) {
+    let f = divisions;
+    startX = random(width / f, width / f * (f - 1));
+    startY = random(height / f, height / f * (f - 1));
+  } else {
+    startX = random(width);
+    startY = random(height);
+  }
+  if (offset) {
+    // offset - bottom right
+    // startX = startX + (width/f) * 0.5;
+    // startY = startY + (height/f) * 0.5;
+  }
   return {startX, startY};
 }
 
@@ -95,42 +97,59 @@ function startPositionsFromImage(img) {
       let g = img.pixels[i + 1];
       let b = img.pixels[i + 2];
 
-      let sat = getSaturation([r, g, b, 255]);
-
-      if (sat > 50) {
-        let scl = 8;
-        let a = 100;
-        let loc = {
-          startX: x*scl,
-          startY: y*scl,
-          particleColor: [r, g, b, a],
-        }
-        positions.push(loc);
+      let scl = 8;
+      let a = 100;
+      let loc = {
+        startX: x*scl,
+        startY: y*scl,
+        particleColor: [r, g, b, a],
       }
+      positions.push(loc);
     }
   }
   return positions;
 }
 
-let posIncrementor = 0;
-function nextStartPosition() {
-  // return starting_points[posIncrementor++ % starting_points.length];
-  // return random(starting_points);
-  let f = 8;
-  return {
-    startX: width/f*(f-1),
-    startY: height/f*(f-1),
-    particleColor: getColor(),
-  }
+function nextStartState() {
+  return random(starting_points);
 }
 
+let grays = [
+  [195, 195, 195],
+  [161, 161, 161],
+  [131, 131, 131],
+  [109, 108, 108],
+  [79, 79, 79],
+]
+let grapes = [
+  [125, 85, 159],
+  [150, 114, 195],
+  [181, 137, 206],
+  [206, 143, 214],
+  [222, 151, 236],
+]
+
+// let meadow = [
+//   [144, 12, 63],
+//   [253, 221, 93],
+//   [170, 211, 86],
+//   [24, 154, 168],
+//   [120, 88, 111],
+// ]
+let purple_forest = [
+  [28, 96, 74],
+  [18, 131, 105],
+  [65, 66, 124],
+  [96, 88, 152],
+  [146, 105, 165],
+]
+  
 function getColor(startX, startY) {
-  let a = 20;
-  let palatte = [
-    [0, 0, 0, a],
-  ]
-  let c = random(palatte);
-  return c;
+  let a = 25;
+  let palatte = purple_forest;
+  // let c = random(palatte);
+  let c = random(purple_forest);
+  return [...c, a];
 }
 
 function printStatus() {
@@ -171,22 +190,3 @@ function keyPressed() {
       break;
   }
 }
-
-function getSaturation(rgba) {
-  var red = rgba[0];
-  var green = rgba[1];
-  var blue = rgba[2];
-
-  var val = Math.max(red, green, blue);
-  var chroma = val - Math.min(red, green, blue);
-
-  var sat;
-  if (chroma === 0) {  // Return early if grayscale.
-    sat = 0;
-  }
-  else {
-    sat = chroma / val;
-  }
-
-  return int(sat * 100);
-};
