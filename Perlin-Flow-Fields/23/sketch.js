@@ -1,8 +1,14 @@
-const NUM_FRAMES = 2000;
-const FIELD_SIZE = 20;
+// Factors of  1200:
+// 1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 16, 20, 24, 25, 30, 40, 48, 50, 60, 75, 80, 100, 120, 150, 200, 240, 300, 400, 600, 1200
+//
+// Factors of 800:
+// 1, 2, 4, 5, 8, 10, 16, 20, 25, 32, 40, 50, 80, 100, 160, 200, 400, 800
+const FIELD_SIZE = 10; 
+const NUM_FRAMES = 2500;
+let DEBUG_MODE = false;
 
-let particles = [];
 const PARTICLE_COUNT = 2000;
+let particles = [];
 let total_particles = PARTICLE_COUNT;
 
 let flowfield;
@@ -10,21 +16,10 @@ let starting_points = [];
 
 let avgGen = 0;
 
-function preload() {
-  let url = "Purple Forest Color Palette - color-hex.com.png"
-  img = loadImage(url, (img) => {
-    let scl = 2;
-    img.resize(800 / scl, 800 / scl);
-    starting_points = startPositionsFromImage(img);
-    shuffle(starting_points);
-  });
-}
-
 function setup() {
   createCanvas(800, 800);
-  // colorMode(HSB)
+  colorMode(HSB)
   background(255);
-  // background(254, 251, 254);
   noiseSeed(1002);
   rectMode(CORNERS);
 
@@ -46,12 +41,9 @@ function draw() {
     particles[i].show();
   }
 
-  if (frameCount % 100 == 0) {
-    printStatus();
-  }
-
-  if (frameCount == NUM_FRAMES) {
-    // noLoop();
+  if (DEBUG_MODE) {
+    if (frameCount % 100 == 0) printStatus();
+    if (frameCount == NUM_FRAMES) noLoop();
   }
 }
 
@@ -111,16 +103,12 @@ function startPositionsFromImage(img) {
 }
 
 function nextStartState() {
-  return random(starting_points);
+  let startX = random(width);
+  let startY = random(height);
+  let particleColor = getColor(startX, startY);
+  return {startX, startY, particleColor};
 }
 
-let grays = [
-  [195, 195, 195],
-  [161, 161, 161],
-  [131, 131, 131],
-  [109, 108, 108],
-  [79, 79, 79],
-]
 let grapes = [
   [125, 85, 159],
   [150, 114, 195],
@@ -128,28 +116,13 @@ let grapes = [
   [206, 143, 214],
   [222, 151, 236],
 ]
-
-// let meadow = [
-//   [144, 12, 63],
-//   [253, 221, 93],
-//   [170, 211, 86],
-//   [24, 154, 168],
-//   [120, 88, 111],
-// ]
-let purple_forest = [
-  [28, 96, 74],
-  [18, 131, 105],
-  [65, 66, 124],
-  [96, 88, 152],
-  [146, 105, 165],
-]
   
 function getColor(startX, startY) {
-  let a = 25;
-  let palatte = purple_forest;
-  // let c = random(palatte);
-  let c = random(purple_forest);
-  return [...c, a];
+  let a = 8;
+  let h = random(260, 300);
+  let s = int(random(30, 100));
+  let b = int(random(40, 100));
+  return [h, s, b, a];
 }
 
 function printStatus() {

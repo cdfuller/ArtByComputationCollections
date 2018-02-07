@@ -1,18 +1,18 @@
-MIN_LIFESPAN = 10000-1;
-MAX_LIFESPAN = 10000;
+MIN_LIFESPAN = 20;
+MAX_LIFESPAN = 80;
 
 function Particle(x, y, c) {
   this.pos = createVector(x, y);
   this.vel = createVector(random(-TWO_PI, TWO_PI), random(-TWO_PI, TWO_PI));
   this.acc = createVector(0, 0);
-  this.maxSpeed = 1;
+  this.maxSpeed = 3;
   this.diameter = 4;
   this.lifetime = int(random(MIN_LIFESPAN, MAX_LIFESPAN));
   this.age = 0;
   this.generation = 0;
   this.strokeColor = 0;
   this.strokeAlpha = 255;
-  this.strokeWeight = 0.7;
+  this.strokeWeight = 0.06;
   this.color = c;
 
   this.prevPos = this.pos.copy();
