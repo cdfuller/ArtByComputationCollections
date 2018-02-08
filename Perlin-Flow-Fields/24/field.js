@@ -1,7 +1,7 @@
 function FlowField(fieldSize) {
-  let xIncr = 0.2;
+  let xIncr = 0.07;
   let yIncr = xIncr/5;
-  let zIncr = 0.0;
+  let zIncr = 0.02;
   // let zOff = 10.02;
   let zOff = 0.0;
 
@@ -47,28 +47,10 @@ function FlowField(fieldSize) {
     return vector;
   }
 
-  // this.getVectorOverlayGraphic = function() {
-  //   // let overlay = createGraphics()
-  //   for (let y = 0; y < this.rows; y++) {
-  //     for (let x = 0; x < this.cols; x++) {
-  //       let idx = x + (y * this.cols);
-  //       let v = this.field[idx];
-  //       push();
-  //       stroke(0, 128);
-  //       strokeWeight(1);
-  //       translate(x * this.fieldSize, y * this.fieldSize);
-  //       rotate(v.heading());
-  //       line(0, 0, this.fieldSize, 0);
-  //       pop();
-  //     }
-  //   }
-  // }
-
   function generateFieldAngle(xOff, yOff, zOff) {
     let n = noise(xOff, yOff, zOff); // 0 < n < 1
-    // let f = 3.14;
-    let f = TWO_PI;
-    n = floor(n * f) / f;
-    return - n * TWO_PI + 0.43;
+    // let f = 7;
+    // n = floor(n * f) / f;
+    return - n * TWO_PI;
   }
 }

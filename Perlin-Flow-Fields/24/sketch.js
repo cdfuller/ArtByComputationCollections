@@ -3,11 +3,11 @@
 //
 // Factors of 800:
 // 1, 2, 4, 5, 8, 10, 16, 20, 25, 32, 40, 50, 80, 100, 160, 200, 400, 800
-const FIELD_SIZE = 10; 
+const FIELD_SIZE = 10 ; 
 const NUM_FRAMES = 2500;
 let DEBUG_MODE = false;
 
-const PARTICLE_COUNT = 2000;
+const PARTICLE_COUNT = 1;
 let particles = [];
 let total_particles = PARTICLE_COUNT;
 
@@ -18,10 +18,8 @@ let avgGen = 0;
 
 function setup() {
   createCanvas(800, 800);
-  colorMode(HSB)
   background(255);
   noiseSeed(1002);
-  rectMode(CORNERS);
 
   flowfield = new FlowField(FIELD_SIZE);
 
@@ -43,7 +41,7 @@ function draw() {
 
   if (DEBUG_MODE) {
     if (frameCount % 100 == 0) printStatus();
-    if (frameCount == NUM_FRAMES) noLoop();
+    // if (frameCount == NUM_FRAMES) noLoop();
   }
 }
 
@@ -66,42 +64,6 @@ function getInsetStartPosition(divisions, offset=false) {
   return {startX, startY};
 }
 
-function generateStartPositions(field) {
-  positions = [];
-  for (let i = 0; i < field.rows; i++) {
-    for (let j = 0; j < field.cols; j++) {
-      positions.push({
-        startX: j * field.fieldSize,
-        startY: i * field.fieldSize
-      })
-    }
-  }
-  return shuffle(positions);
-}
-
-function startPositionsFromImage(img) {
-  positions = [];
-  img.loadPixels();
-  for (let y = 0; y < img.width; y++) {
-    for (let x = 0; x < img.height; x++) {
-      let i = (x + (y * img.width)) * 4;
-      let r = img.pixels[i + 0];
-      let g = img.pixels[i + 1];
-      let b = img.pixels[i + 2];
-
-      let scl = 8;
-      let a = 100;
-      let loc = {
-        startX: x*scl,
-        startY: y*scl,
-        particleColor: [r, g, b, a],
-      }
-      positions.push(loc);
-    }
-  }
-  return positions;
-}
-
 function nextStartState() {
   let startX = random(width);
   let startY = random(height);
@@ -109,20 +71,18 @@ function nextStartState() {
   return {startX, startY, particleColor};
 }
 
-let grapes = [
-  [125, 85, 159],
-  [150, 114, 195],
-  [181, 137, 206],
-  [206, 143, 214],
-  [222, 151, 236],
-]
-  
+let colorIndex = 0;
 function getColor(startX, startY) {
-  let a = 8;
-  let h = random(260, 300);
-  let s = int(random(30, 100));
-  let b = int(random(40, 100));
-  return [h, s, b, a];
+  let a = 25;
+  let palette = [
+    [255, 0, 0],
+    [255, 255, 0],
+    [0, 255, 0],
+    [0, 0, 255],
+    [255, 0, 255],
+  ]
+  let c = palette[colorIndex++ % palette.length];
+  return [...c, a];
 }
 
 function printStatus() {

@@ -5,14 +5,12 @@ function Particle(x, y, c) {
   this.pos = createVector(x, y);
   this.vel = createVector(random(-TWO_PI, TWO_PI), random(-TWO_PI, TWO_PI));
   this.acc = createVector(0, 0);
-  this.maxSpeed = 3;
-  this.diameter = 4;
+  this.maxSpeed = 8;
+  this.diameter = random(20, 150);
   this.lifetime = int(random(MIN_LIFESPAN, MAX_LIFESPAN));
   this.age = 0;
   this.generation = 0;
-  this.strokeColor = 0;
-  this.strokeAlpha = 255;
-  this.strokeWeight = 0.06;
+  this.strokeWeight = 0.4;
   this.color = c;
 
   this.prevPos = this.pos.copy();
@@ -22,12 +20,10 @@ function Particle(x, y, c) {
       this.vel.add(this.acc);
       this.vel.limit(this.maxSpeed);
       this.direction = p5.Vector.sub(this.pos, this.prevPos);
-      let h = this.direction.heading();
       this.prevPos = this.pos.copy();
       this.pos.add(this.vel);
       this.acc.mult(0);
       this.edges();
-      // this.diameter -= 0.04;
       this.age += 1;
     } else {
       let { startX, startY, particleColor } = nextStartState();
@@ -39,7 +35,7 @@ function Particle(x, y, c) {
       this.lifetime = int(random(MIN_LIFESPAN, MAX_LIFESPAN))
       this.age = 0;
       this.generation += 1;
-      // this.diameter = 4;
+      this.diameter = random(20, 150);
       // this.color = getColor(startX, startY, this.generation);
       total_particles++;
     }
@@ -56,29 +52,13 @@ function Particle(x, y, c) {
 
   this.show = function showParticle() {
     if (this.age > 10 && frameCount > 0) {
-      let direction = p5.Vector.sub(this.prevPos, this.pos);
-      // stroke(this.color[0], this.color[1], this.color[2], 255);
-      stroke(this.color);
+      this.direction.normalize()
+      this.direction.mult(this.diameter);
+      stroke(0);
       strokeWeight(this.strokeWeight);
-      noFill();
-      // fill(this.color);
-      // ellipse(this.pos.x, this.pos.y, this.diameter)
-      line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
-      // rect(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
-      // drawShape(this.pos.x, this.pos.y, direction.heading())
-      // noStroke();
+      fill(this.color);
+      rect(this.pos.x, this.pos.y, this.direction.x, this.direction.y);
     }
-    // if (this.age == 1) {
-    //   fill(255);
-    //   strokeWeight(this.strokeWeight);
-    //   stroke(this.color);
-    //   ellipse(this.pos.x, this.pos.y, this.diameter);
-    // }
-    // if (this.age == this.lifetime-1) {
-    //   fill(0);
-    //   strokeWeight(this.strokeWeight);
-    //   ellipse(this.pos.x, this.pos.y, this.diameter/2);
-    // }
   }
 
   this.edges = function() {
@@ -100,18 +80,3 @@ function Particle(x, y, c) {
     }
   }
 }
-
-function drawShape(x, y, heading) {
-  push();
-  translate(x, y);
-  rotate(heading);
-  beginShape();
-  vertex(0, 0);
-  curveVertex(0, 10);
-  curveVertex(0, -10);
-  vertex(10, 0);
-  endShape(CLOSE);
-  // endShape();
-  pop();
-}
-
