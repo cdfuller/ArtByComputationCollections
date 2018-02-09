@@ -1,16 +1,16 @@
-MIN_LIFESPAN = 20;
-MAX_LIFESPAN = 80;
+MIN_LIFESPAN = 500;
+MAX_LIFESPAN = 1000;
 
 function Particle(x, y, c) {
   this.pos = createVector(x, y);
   this.vel = createVector(random(-TWO_PI, TWO_PI), random(-TWO_PI, TWO_PI));
   this.acc = createVector(0, 0);
-  this.maxSpeed = 8;
   this.diameter = random(20, 150);
+  this.maxSpeed = 2;
   this.lifetime = int(random(MIN_LIFESPAN, MAX_LIFESPAN));
   this.age = 0;
   this.generation = 0;
-  this.strokeWeight = 0.4;
+  this.strokeWeight = 0.15;
   this.color = c;
 
   this.prevPos = this.pos.copy();
@@ -54,10 +54,19 @@ function Particle(x, y, c) {
     if (this.age > 10 && frameCount > 0) {
       this.direction.normalize()
       this.direction.mult(this.diameter);
-      stroke(0);
+      stroke(this.color);
       strokeWeight(this.strokeWeight);
-      fill(this.color);
-      rect(this.pos.x, this.pos.y, this.direction.x, this.direction.y);
+      // fill(this.color);
+      let center = createVector(width/2, height/2);
+      let r = p5.Vector.sub(this.pos, center);
+      r.normalize();
+      r.mult(width/2);
+      r.add(center);
+      line(this.pos.x, this.pos.y, r.x, r.y);
+      let secondaryColor = [...this.color];
+      secondaryColor[3] = secondaryColor[3] * 4
+      strokeWeight(this.strokeWeight*6);
+      line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
     }
   }
 

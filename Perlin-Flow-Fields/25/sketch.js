@@ -3,11 +3,11 @@
 //
 // Factors of 800:
 // 1, 2, 4, 5, 8, 10, 16, 20, 25, 32, 40, 50, 80, 100, 160, 200, 400, 800
-const FIELD_SIZE = 10 ; 
+const FIELD_SIZE = 20; 
 const NUM_FRAMES = 2500;
-let DEBUG_MODE = false;
+let DEBUG_MODE = true;
 
-const PARTICLE_COUNT = 1;
+const PARTICLE_COUNT = 1000;
 let particles = [];
 let total_particles = PARTICLE_COUNT;
 
@@ -73,13 +73,13 @@ function nextStartState() {
 
 let colorIndex = 0;
 function getColor(startX, startY) {
-  let a = 25;
+  let a = 10;
   let palette = [
-    [255, 0, 0],
-    [255, 255, 0],
-    [0, 255, 0],
-    [0, 0, 255],
-    [255, 0, 255],
+    [125, 85, 159],
+    [150, 114, 195],
+    [181, 137, 206],
+    [206, 143, 214],
+    [222, 151, 236],
   ]
   let c = palette[colorIndex++ % palette.length];
   return [...c, a];
