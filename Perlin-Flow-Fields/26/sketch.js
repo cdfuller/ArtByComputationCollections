@@ -32,7 +32,7 @@ function setup() {
 }
 
 function draw() {
-  flowfield.update();
+  // flowfield.update();
 
   for (let i = 0; i < particles.length; i++) {
     particles[i].follow(flowfield);
