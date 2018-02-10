@@ -3,11 +3,11 @@
 //
 // Factors of 800:
 // 1, 2, 4, 5, 8, 10, 16, 20, 25, 32, 40, 50, 80, 100, 160, 200, 400, 800
-const FIELD_SIZE = 10; 
-const NUM_FRAMES = 2500;
+const FIELD_SIZE = 16; 
+const NUM_FRAMES = 2550;
 let DEBUG_MODE = true;
 
-const PARTICLE_COUNT = 100;
+const PARTICLE_COUNT = 2000;
 let particles = [];
 let total_particles = PARTICLE_COUNT;
 
@@ -18,15 +18,14 @@ let avgGen = 0;
 
 function setup() {
   createCanvas(800, 800);
-  background(51);
+  background(255);
   noiseSeed(1002);
 
   flowfield = new FlowField(FIELD_SIZE);
 
-  starting_points = generateStartingPoints();
 
   for (let i = 0; i < PARTICLE_COUNT; i++) {
-    let { startX, startY, particleColor } = starting_points[i];
+    let { startX, startY, particleColor } = nextStartState();
     particles[i] = new Particle(startX, startY, particleColor);
   }
 }
@@ -42,7 +41,7 @@ function draw() {
 
   if (DEBUG_MODE) {
     if (frameCount % 100 == 0) printStatus();
-    // if (frameCount == NUM_FRAMES) noLoop();
+    if (frameCount == NUM_FRAMES) noLoop();
   }
 }
 
@@ -62,15 +61,29 @@ function generateStartingPoints() {
 
 let pointsIncrementor = 0;
 function nextStartState() {
-  let { startX, startY, particleColor } = starting_points[pointsIncrementor++ % starting_points.length];
+  let div = 20;
+  let scl = width/div;
+  let startX = floor(random(width+scl) / scl) * scl;
+  let startY = floor(random(height+scl) / scl) * scl;
+  let range = 4;
+  startX += random(-range, range);
+  startY += random(-range, range);
+  let particleColor = getColor(startX, startY);
+  // if (random(1) > 0.5) {
+  //   startX -= scl/2;
+  //   startY -= scl/2;
+  //   // particleColor = [50, 108, 195, 80];
+  //   // particleColor = [255, 0, 0, 80];
+  // }
   return {startX, startY, particleColor};
 }
 
 let colorIndex = 0;
 function getColor(startX, startY) {
-  let a = 100;
+  let a = 80;
   let palette = [
-    [245, 245, 245],
+    // [8, 16, 100],
+    [41, 49, 163],
   ]
   let c = palette[colorIndex++ % palette.length];
   return [...c, a];

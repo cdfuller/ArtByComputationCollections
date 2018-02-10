@@ -1,5 +1,5 @@
-MIN_LIFESPAN = 1500;
-MAX_LIFESPAN = 2000;
+MIN_LIFESPAN = 10;
+MAX_LIFESPAN = 50;
 
 function Particle(x, y, c) {
   this.pos = createVector(x, y);
@@ -10,7 +10,7 @@ function Particle(x, y, c) {
   this.lifetime = int(random(MIN_LIFESPAN, MAX_LIFESPAN));
   this.age = 0;
   this.generation = 0;
-  this.strokeWeight = 2;
+  this.strokeWeight = 0.1;
   this.color = c;
   this.living = true;
 
@@ -27,19 +27,19 @@ function Particle(x, y, c) {
       this.edges();
       this.age += 1;
     } else {
-      this.living = false;
-      // let { startX, startY, particleColor } = nextStartState();
-      // this.color = particleColor
-      // this.pos = createVector(startX, startY);
-      // this.prevPos = this.pos.copy();
-      // this.vel = createVector(0, 0);
-      // this.acc = createVector(0, 0);
-      // this.lifetime = int(random(MIN_LIFESPAN, MAX_LIFESPAN))
-      // this.age = 0;
-      // this.generation += 1;
-      // this.diameter = random(20, 150);
-      // // this.color = getColor(startX, startY, this.generation);
-      // total_particles++;
+      // this.living = false;
+      let { startX, startY, particleColor } = nextStartState();
+      this.color = particleColor
+      this.pos = createVector(startX, startY);
+      this.prevPos = this.pos.copy();
+      this.vel = createVector(0, 0);
+      this.acc = createVector(0, 0);
+      this.lifetime = int(random(MIN_LIFESPAN, MAX_LIFESPAN))
+      this.age = 0;
+      this.generation += 1;
+      this.diameter = random(20, 150);
+      // this.color = getColor(startX, startY, this.generation);
+      total_particles++;
     }
   }
 

@@ -1,6 +1,6 @@
 function FlowField(fieldSize) {
-  let xIncr = 0.0235;
-  let yIncr = xIncr/5;
+  let xIncr = 0.1;
+  let yIncr = xIncr;
   let zIncr = 0.02;
   // let zOff = 10.02;
   let zOff = 0.0;
