@@ -3,11 +3,11 @@
 //
 // Factors of 800:
 // 1, 2, 4, 5, 8, 10, 16, 20, 25, 32, 40, 50, 80, 100, 160, 200, 400, 800
-const FIELD_SIZE = 20; 
+const FIELD_SIZE = 10; 
 const NUM_FRAMES = 2500;
 let DEBUG_MODE = true;
 
-const PARTICLE_COUNT = 1000;
+const PARTICLE_COUNT = 100;
 let particles = [];
 let total_particles = PARTICLE_COUNT;
 
@@ -18,20 +18,21 @@ let avgGen = 0;
 
 function setup() {
   createCanvas(800, 800);
-  background(255);
+  background(51);
   noiseSeed(1002);
 
   flowfield = new FlowField(FIELD_SIZE);
 
+  starting_points = generateStartingPoints();
+
   for (let i = 0; i < PARTICLE_COUNT; i++) {
-    // let {startX, startY} = getStartPosition(flowfield);
-    let { startX, startY, particleColor } = nextStartState();
+    let { startX, startY, particleColor } = starting_points[i];
     particles[i] = new Particle(startX, startY, particleColor);
   }
 }
 
 function draw() {
-  // flowfield.update();
+  flowfield.update();
 
   for (let i = 0; i < particles.length; i++) {
     particles[i].follow(flowfield);
@@ -45,41 +46,31 @@ function draw() {
   }
 }
 
-function getInsetStartPosition(divisions, offset=false) {
-  let startX, startY;
-  // constrain to the f-2 center
-  if (divisions > 0) {
-    let f = divisions;
-    startX = random(width / f, width / f * (f - 1));
-    startY = random(height / f, height / f * (f - 1));
-  } else {
-    startX = random(width);
-    startY = random(height);
+function generateStartingPoints() {
+  let points = [];
+  let x = width *  1.00;
+  let scl = height / PARTICLE_COUNT;
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    points.push({
+      startX: x,
+      startY: scl * i,
+      particleColor: getColor(x, scl * i),
+    })
   }
-  if (offset) {
-    // offset - bottom right
-    // startX = startX + (width/f) * 0.5;
-    // startY = startY + (height/f) * 0.5;
-  }
-  return {startX, startY};
+  return points;
 }
 
+let pointsIncrementor = 0;
 function nextStartState() {
-  let startX = random(width);
-  let startY = random(height);
-  let particleColor = getColor(startX, startY);
+  let { startX, startY, particleColor } = starting_points[pointsIncrementor++ % starting_points.length];
   return {startX, startY, particleColor};
 }
 
 let colorIndex = 0;
 function getColor(startX, startY) {
-  let a = 10;
+  let a = 100;
   let palette = [
-    [125, 85, 159],
-    [150, 114, 195],
-    [181, 137, 206],
-    [206, 143, 214],
-    [222, 151, 236],
+    [245, 245, 245],
   ]
   let c = palette[colorIndex++ % palette.length];
   return [...c, a];
