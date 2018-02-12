@@ -1,16 +1,19 @@
-MIN_LIFESPAN = 10;
-MAX_LIFESPAN = 50;
+MIN_LIFESPAN = 30;
+MAX_LIFESPAN = 500;
+
+MIN_SIZE = 10;
+MAX_SIZE = 50;
 
 function Particle(x, y, c) {
   this.pos = createVector(x, y);
   this.vel = createVector(random(-TWO_PI, TWO_PI), random(-TWO_PI, TWO_PI));
   this.acc = createVector(0, 0);
-  this.diameter = random(20, 150);
+  this.diameter = floor(random(MIN_SIZE, MAX_SIZE) / 5) * 10;
   this.maxSpeed = 1;
   this.lifetime = int(random(MIN_LIFESPAN, MAX_LIFESPAN));
   this.age = 0;
   this.generation = 0;
-  this.strokeWeight = 0.1;
+  this.strokeWeight = 0.3;
   this.color = c;
   this.living = true;
 
@@ -37,7 +40,7 @@ function Particle(x, y, c) {
       this.lifetime = int(random(MIN_LIFESPAN, MAX_LIFESPAN))
       this.age = 0;
       this.generation += 1;
-      this.diameter = random(20, 150);
+      this.diameter = random(MIN_SIZE, MAX_SIZE);
       // this.color = getColor(startX, startY, this.generation);
       total_particles++;
     }
@@ -55,9 +58,11 @@ function Particle(x, y, c) {
   this.show = function showParticle() {
     if (this.living) {
       if (this.age > 2 && frameCount > 0) {
+        noFill();
         stroke(this.color);
-        strokeWeight(this.strokeWeight);
-        line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
+        // noStroke();
+        // fill(this.color);
+        ellipse(this.pos.x, this.pos.y, this.diameter);
       }
     }
   }

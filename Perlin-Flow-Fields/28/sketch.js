@@ -3,11 +3,11 @@
 //
 // Factors of 800:
 // 1, 2, 4, 5, 8, 10, 16, 20, 25, 32, 40, 50, 80, 100, 160, 200, 400, 800
-const FIELD_SIZE = 16; 
+const FIELD_SIZE = 10; 
 const NUM_FRAMES = 2550;
 let DEBUG_MODE = true;
 
-const PARTICLE_COUNT = 2000;
+const PARTICLE_COUNT = 200;
 let particles = [];
 let total_particles = PARTICLE_COUNT;
 
@@ -18,7 +18,7 @@ let avgGen = 0;
 
 function setup() {
   createCanvas(800, 800);
-  background(255);
+  background(0);
   noiseSeed(1002);
 
   flowfield = new FlowField(FIELD_SIZE);
@@ -61,30 +61,24 @@ function generateStartingPoints() {
 
 let pointsIncrementor = 0;
 function nextStartState() {
-  let div = 20;
-  let scl = width/div;
-  let startX = floor(random(width+scl) / scl) * scl;
-  let startY = floor(random(height+scl) / scl) * scl;
-  let range = 4;
-  startX += random(-range, range);
-  startY += random(-range, range);
+  let startX = random(width);
+  let startY = random(height);
   let particleColor = getColor(startX, startY);
-  // if (random(1) > 0.5) {
-  //   startX -= scl/2;
-  //   startY -= scl/2;
-  //   // particleColor = [50, 108, 195, 80];
-  //   // particleColor = [255, 0, 0, 80];
-  // }
   return {startX, startY, particleColor};
 }
 
+let sorbet = [
+  [255, 169, 169],
+  [255, 245, 147],
+  [208, 255, 153],
+  [255, 103, 103],
+  [255, 195, 120],
+]
+  
 let colorIndex = 0;
 function getColor(startX, startY) {
-  let a = 80;
-  let palette = [
-    // [8, 16, 100],
-    [41, 49, 163],
-  ]
+  let a = 15;
+  let palette = [...sorbet];
   let c = palette[colorIndex++ % palette.length];
   return [...c, a];
 }
@@ -126,4 +120,13 @@ function keyPressed() {
     default:
       break;
   }
+}
+
+function hexToRgb(hex) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? [
+    parseInt(result[1], 16),
+    parseInt(result[2], 16),
+    parseInt(result[3], 16)
+   ] : null;
 }
