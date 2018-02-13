@@ -1,8 +1,8 @@
-MIN_LIFESPAN = 30;
-MAX_LIFESPAN = 500;
+MIN_LIFESPAN = 100;
+MAX_LIFESPAN = 400;
 
-MIN_SIZE = 10;
-MAX_SIZE = 50;
+MIN_SIZE = 40;
+MAX_SIZE = 70;
 
 function Particle(x, y, c) {
   this.pos = createVector(x, y);
@@ -13,7 +13,7 @@ function Particle(x, y, c) {
   this.lifetime = int(random(MIN_LIFESPAN, MAX_LIFESPAN));
   this.age = 0;
   this.generation = 0;
-  this.strokeWeight = 0.3;
+  this.strokeWeight = 0.7;
   this.color = c;
   this.living = true;
 
@@ -24,6 +24,7 @@ function Particle(x, y, c) {
       this.vel.add(this.acc);
       this.vel.limit(this.maxSpeed);
       this.direction = p5.Vector.sub(this.pos, this.prevPos);
+      this.diameter += random(-0.5, 0.5);
       this.prevPos = this.pos.copy();
       this.pos.add(this.vel);
       this.acc.mult(0);
@@ -60,22 +61,30 @@ function Particle(x, y, c) {
       if (this.age > 2 && frameCount > 0) {
         noFill();
         stroke(this.color);
+        strokeWeight(this.strokeWeight);
+        for (let i = 0; i < this.diameter; i++) {
+          let scl = 1;
+          let x = this.pos.x + (cos(i / scl) * i);
+          let y = this.pos.y + (sin(i / scl) * i);
+          line(this.pos.x, this.pos.y, x, y);
+        }
         // noStroke();
         // fill(this.color);
-        ellipse(this.pos.x, this.pos.y, this.diameter);
+        // this.direction.mult(this.diameter);
+        // ellipse(this.pos.x, this.pos.y, this.direction.x, this.direction.y);
       }
     }
   }
 
   this.edges = function() {
-    // if (this.pos.x > width) {
-    //   this.pos.x = 0;
-    //   this.prevPos = this.pos.copy();
-    // }
-    // if (this.pos.x < 0) {
-    //   this.pos.x = width;
-    //   this.prevPos = this.pos.copy();
-    // }
+    if (this.pos.x > width) {
+      this.pos.x = 0;
+      this.prevPos = this.pos.copy();
+    }
+    if (this.pos.x < 0) {
+      this.pos.x = width;
+      this.prevPos = this.pos.copy();
+    }
     if (this.pos.y > height) {
       this.pos.y = 0;
       this.prevPos = this.pos.copy();
