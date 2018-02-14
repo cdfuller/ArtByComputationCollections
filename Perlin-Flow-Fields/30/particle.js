@@ -1,5 +1,5 @@
-MIN_LIFESPAN = 100;
-MAX_LIFESPAN = 400;
+MIN_LIFESPAN = 40;
+MAX_LIFESPAN = 150;
 
 MIN_SIZE = 40;
 MAX_SIZE = 70;
@@ -13,7 +13,7 @@ function Particle(x, y, c) {
   this.lifetime = int(random(MIN_LIFESPAN, MAX_LIFESPAN));
   this.age = 0;
   this.generation = 0;
-  this.strokeWeight = 0.7;
+  this.strokeWeight = 0.35;
   this.color = c;
   this.living = true;
 
@@ -23,6 +23,10 @@ function Particle(x, y, c) {
     if (this.living && this.age < this.lifetime) {
       this.vel.add(this.acc);
       this.vel.limit(this.maxSpeed);
+      if (this.age % 25 == 0){
+        this.vel.rotate(HALF_PI);
+        this.vel.mult(50);
+      }
       this.direction = p5.Vector.sub(this.pos, this.prevPos);
       this.diameter += random(-0.5, 0.5);
       this.prevPos = this.pos.copy();
@@ -59,15 +63,16 @@ function Particle(x, y, c) {
   this.show = function showParticle() {
     if (this.living) {
       if (this.age > 2 && frameCount > 0) {
-        noFill();
+        // noFill();
         stroke(this.color);
         strokeWeight(this.strokeWeight);
-        for (let i = 0; i < this.diameter; i++) {
-          let scl = 1;
-          let x = this.pos.x + (cos(i / scl) * i);
-          let y = this.pos.y + (sin(i / scl) * i);
-          line(this.pos.x, this.pos.y, x, y);
-        }
+        line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
+        // for (let i = 0; i < this.diameter; i++) {
+        //   let scl = 1;
+        //   let x = this.pos.x + (cos(i / scl) * i);
+        //   let y = this.pos.y + (sin(i / scl) * i);
+        //   line(this.pos.x, this.pos.y, x, y);
+        // }
         // noStroke();
         // fill(this.color);
         // this.direction.mult(this.diameter);
@@ -78,19 +83,23 @@ function Particle(x, y, c) {
 
   this.edges = function() {
     if (this.pos.x > width) {
-      this.pos.x = 0;
+      // this.pos.x = 0;
+      this.pos.x -= width
       this.prevPos = this.pos.copy();
     }
     if (this.pos.x < 0) {
-      this.pos.x = width;
+      // this.pos.x = width;
+      this.pos.x += width;
       this.prevPos = this.pos.copy();
     }
     if (this.pos.y > height) {
-      this.pos.y = 0;
+      // this.pos.y = 0;
+      this.pos.y -= height;
       this.prevPos = this.pos.copy();
     }
     if (this.pos.y < 0) {
-      this.pos.y = height;
+      // this.pos.y = height;
+      this.pos.y += height;
       this.prevPos = this.pos.copy();
     }
   }

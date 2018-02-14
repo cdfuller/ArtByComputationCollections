@@ -3,11 +3,11 @@
 //
 // Factors of 800:
 // 1, 2, 4, 5, 8, 10, 16, 20, 25, 32, 40, 50, 80, 100, 160, 200, 400, 800
-const FIELD_SIZE = 10; 
+const FIELD_SIZE = 8; 
 const NUM_FRAMES = 5000;
 let DEBUG_MODE = true;
 
-const PARTICLE_COUNT = 10;
+const PARTICLE_COUNT = 1000;
 let particles = [];
 let total_particles = PARTICLE_COUNT;
 
@@ -18,9 +18,8 @@ let avgGen = 0;
 
 function setup() {
   createCanvas(800, 800);
-  background(0);
+  background(255);
   noiseSeed(1002);
-  blendMode(LIGHTEST)
 
   flowfield = new FlowField(FIELD_SIZE);
 
@@ -68,18 +67,13 @@ function nextStartState() {
   return {startX, startY, particleColor};
 }
 
-
-let usa = [
-  [255, 0, 0],
-  [0, 0, 255],
-  [255, 255, 255],
-]
-  
 let colorIndex = 0;
 function getColor(startX, startY) {
-  let a = 3;
-  let palette = [...usa];
-  let c = palette[colorIndex++ % palette.length];
+  let a = 45;
+  // let palette = [...fancy-colors];
+  // let c = palette[colorIndex++ % palette.length];
+  let r = int(random(255));
+  let c = [r, r, r];
   return [...c, a];
 }
 
