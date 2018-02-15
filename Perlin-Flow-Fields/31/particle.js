@@ -1,5 +1,5 @@
 MIN_LIFESPAN = 40;
-MAX_LIFESPAN = 150;
+MAX_LIFESPAN = 400;
 
 MIN_SIZE = 40;
 MAX_SIZE = 70;
@@ -13,7 +13,7 @@ function Particle(x, y, c) {
   this.lifetime = int(random(MIN_LIFESPAN, MAX_LIFESPAN));
   this.age = 0;
   this.generation = 0;
-  this.strokeWeight = 0.35;
+  this.strokeWeight = 0.8;
   this.color = c;
   this.living = true;
 
@@ -23,11 +23,12 @@ function Particle(x, y, c) {
     if (this.living && this.age < this.lifetime) {
       this.vel.add(this.acc);
       this.vel.limit(this.maxSpeed);
-      if (this.age % 25 == 0){
-        this.vel.rotate(HALF_PI);
-        this.vel.mult(50);
-      }
       this.direction = p5.Vector.sub(this.pos, this.prevPos);
+      if (this.age % 25 == 0){
+        this.vel.mult(50);
+        this.vel.rotate(HALF_PI/2);
+        this.vel.set(this.direction.x * this.vel.x, this.direction.y * this.vel.y);
+      }
       this.diameter += random(-0.5, 0.5);
       this.prevPos = this.pos.copy();
       this.pos.add(this.vel);
