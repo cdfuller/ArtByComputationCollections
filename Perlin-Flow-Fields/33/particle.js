@@ -1,5 +1,5 @@
-MIN_LIFESPAN = 300;
-MAX_LIFESPAN = 700;
+MIN_LIFESPAN = 5;
+MAX_LIFESPAN = 130;
 
 MIN_SIZE = 40;
 MAX_SIZE = 70;
@@ -8,15 +8,15 @@ function Particle(x, y, c) {
   this.pos = createVector(x, y);
   this.vel = createVector(random(-TWO_PI, TWO_PI), random(-TWO_PI, TWO_PI));
   this.acc = createVector(0, 0);
-  this.diameter = 25;
-  this.maxSpeed = 1;
+  this.diameter = 3;
+  this.maxSpeed = 7;
   this.lifetime = int(random(MIN_LIFESPAN, MAX_LIFESPAN));
   this.age = 0;
   this.generation = 0;
   this.strokeWeight = 0.3;
   this.color = c;
   this.living = true;
-  this.theta = random(TWO_PI);
+  this.theta = random(20);
 
   this.prevPos = this.pos.copy();
 
@@ -25,7 +25,9 @@ function Particle(x, y, c) {
       this.vel.add(this.acc);
       this.vel.limit(this.maxSpeed);
       this.direction = p5.Vector.sub(this.pos, this.prevPos);
-      this.theta += 0.01;
+      this.theta += 2;
+      let h = this.theta % 120;
+      this.color = [h + 170, 90, 90, 0.5];
       // if (this.age % 25 == 0){
       //   this.vel.mult(50);
       //   this.vel.rotate(HALF_PI/2);
@@ -49,6 +51,7 @@ function Particle(x, y, c) {
       this.age = 0;
       this.generation += 1;
       this.diameter = random(MIN_SIZE, MAX_SIZE);
+      this.theta = random(20);
       // this.color = getColor(startX, startY, this.generation);
       total_particles++;
     }
@@ -69,11 +72,11 @@ function Particle(x, y, c) {
         // noFill();
         stroke(this.color);
         strokeWeight(this.strokeWeight);
-        let x = cos(this.theta) * this.diameter;
-        let y = sin(this.theta) * this.diameter;
-        // line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
+        // let x = cos(this.theta) * this.diameter;
+        // let y = sin(this.theta) * this.diameter;
+        line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
         // strokeWeight(this.strokeWeight);
-        line(this.pos.x, this.pos.y, this.pos.x + x, this.pos.y + y);
+        // line(this.pos.x, this.pos.y, this.pos.x + x, this.pos.y + y);
         // for (let i = 0; i < this.diameter; i++) {
         //   let scl = 1;
         //   let x = this.pos.x + (cos(i / scl) * i);

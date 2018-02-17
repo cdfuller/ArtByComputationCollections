@@ -3,11 +3,11 @@
 //
 // Factors of 800:
 // 1, 2, 4, 5, 8, 10, 16, 20, 25, 32, 40, 50, 80, 100, 160, 200, 400, 800
-const FIELD_SIZE = 16; 
-const NUM_FRAMES = 3000;
+const FIELD_SIZE = 10; 
+const NUM_FRAMES = 5000;
 let DEBUG_MODE = true;
 
-const PARTICLE_COUNT = 300;
+const PARTICLE_COUNT = 3000;
 let particles = [];
 let total_particles = PARTICLE_COUNT;
 
@@ -18,7 +18,9 @@ let avgGen = 0;
 
 function setup() {
   createCanvas(800, 800);
-  background(255);
+  colorMode(HSB);
+  background(0);
+  // background(255);
   noiseSeed(1002);
 
   flowfield = new FlowField(FIELD_SIZE);
@@ -69,7 +71,7 @@ function nextStartState() {
 
 let colorIndex = 0;
 function getColor(startX, startY) {
-  let a = 12;
+  let a = 100;
   // let palette = [...blues];
   // let c = palette[colorIndex++ % palette.length];
   let c = [0, 0, 0];
@@ -109,6 +111,7 @@ function keyPressed() {
     case ' ':
       noLoop();
       console.log("Stopped looping");
+      printStatus();
       break;
     default:
       break;
