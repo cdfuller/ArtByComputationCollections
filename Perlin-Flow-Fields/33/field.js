@@ -34,6 +34,14 @@ function FlowField(fieldSize) {
 
   this.update();
 
+  // this.getVector = function getVectorFlowField(_x, _y) {
+  //   let x = floor(_x / this.fieldSize);
+  //   let y = floor(_y / this.fieldSize);
+  //   let idx = x + (y * this.cols);
+  //   let vector = this.field[idx];
+  //   return vector;
+  // }
+
   function generateFieldAngle(xOff, yOff, zOff) {
     let n = noise(xOff, yOff, zOff); // 0 < n < 1
     // let f = 9;
