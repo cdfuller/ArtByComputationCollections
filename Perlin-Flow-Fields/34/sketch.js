@@ -7,7 +7,7 @@ const FIELD_SIZE = 10;
 const NUM_FRAMES = 5000;
 let DEBUG_MODE = true;
 
-const PARTICLE_COUNT = 3000;
+const PARTICLE_COUNT = 1500;
 let particles = [];
 let total_particles = PARTICLE_COUNT;
 
@@ -19,8 +19,8 @@ let avgGen = 0;
 function setup() {
   createCanvas(800, 800);
   colorMode(HSB);
-  background(0);
-  // background(255);
+  // background(0);
+  background(255);
   noiseSeed(1002);
 
   flowfield = new FlowField(FIELD_SIZE);
