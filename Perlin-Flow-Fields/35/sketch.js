@@ -7,7 +7,7 @@ const FIELD_SIZE = 10;
 const NUM_FRAMES = 5000;
 let DEBUG_MODE = true;
 
-const PARTICLE_COUNT = 1500;
+const PARTICLE_COUNT = 1000;
 let particles = [];
 let total_particles = PARTICLE_COUNT;
 
@@ -18,10 +18,10 @@ let avgGen = 0;
 
 function setup() {
   createCanvas(800, 800);
-  colorMode(HSB);
+  // colorMode(HSB);
   // background(0);
   background(255);
-  noiseSeed(1002);
+  noiseSeed(10001);
 
   flowfield = new FlowField(FIELD_SIZE);
 
@@ -69,12 +69,20 @@ function nextStartState() {
   return {startX, startY, particleColor};
 }
 
+let chicago = [
+  [255, 0, 0],
+  [214, 4, 4],
+  [159, 1, 1],
+  [107, 1, 1],
+  [69, 1, 1],
+]
+
 let colorIndex = 0;
 function getColor(startX, startY) {
-  let a = 100;
-  // let palette = [...blues];
-  // let c = palette[colorIndex++ % palette.length];
-  let c = [0, 0, 0];
+  let a = 10;
+  let palette = [...chicago];
+  let c = palette[colorIndex++ % palette.length];
+  // let c = [0, 0, 0];
   return [...c, a];
 }
 
