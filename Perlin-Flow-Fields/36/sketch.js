@@ -7,7 +7,7 @@ const FIELD_SIZE = 10;
 const NUM_FRAMES = 5000;
 let DEBUG_MODE = true;
 
-const PARTICLE_COUNT = 1000;
+const PARTICLE_COUNT = 100;
 let particles = [];
 let total_particles = PARTICLE_COUNT;
 
@@ -18,10 +18,9 @@ let avgGen = 0;
 
 function setup() {
   createCanvas(800, 800);
-  // colorMode(HSB);
-  // background(0);
-  background(255);
-  noiseSeed(10001);
+  ellipseMode(CORNER);
+  background(41, 42, 68);
+  noiseSeed(10002);
 
   flowfield = new FlowField(FIELD_SIZE);
 
@@ -35,10 +34,11 @@ function setup() {
 function draw() {
   // flowfield.update();
 
-  for (let i = 0; i < particles.length; i++) {
-    particles[i].follow(flowfield);
-    particles[i].update(flowfield);
-    particles[i].show();
+  for (let i = particles.length-1; i >= 0; i--) {
+    let p = particles[i];
+    p.follow(flowfield);
+    p.update(flowfield);
+    p.show();
   }
 
   if (DEBUG_MODE) {
@@ -69,18 +69,18 @@ function nextStartState() {
   return {startX, startY, particleColor};
 }
 
-let chicago = [
-  [255, 0, 0],
-  [214, 4, 4],
-  [159, 1, 1],
-  [107, 1, 1],
-  [69, 1, 1],
+let hype = [
+  [159, 47, 121],
+  [90, 22, 55],
+  [243, 65, 113],
+  [1, 175, 236],
+  [225, 169, 5],
 ]
 
 let colorIndex = 0;
 function getColor(startX, startY) {
-  let a = 10;
-  let palette = [...chicago];
+  let a = 255;
+  let palette = [...hype];
   let c = palette[colorIndex++ % palette.length];
   // let c = [0, 0, 0];
   return [...c, a];
