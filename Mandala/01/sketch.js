@@ -6,14 +6,26 @@ const RANDOM_SEED = NOISE_SEED;
 const NUM_FRAMES = 5000;
 const DEBUG_MODE = true;
 
+let RADIUS;
+let mandala;
+
 function setup() {
   createCanvas(1200, 1200);
   background(51);
   noiseSeed(NOISE_SEED);
   randomSeed(RANDOM_SEED);
+
+  rectMode(CENTER);
+
+  RADIUS = min(width, height)/2;
+  mandala = new Mandala(30);
 }
 
 function draw() {
+
+  mandala.update();
+  mandala.draw();
+  noLoop();
 
   if (DEBUG_MODE) {
     if (frameCount % 100 == 0) printStatus();
