@@ -1,0 +1,1 @@
+console.log("mandala.js loaded");
