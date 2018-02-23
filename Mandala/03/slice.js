@@ -7,7 +7,7 @@ class Slice {
       // 'green_circle',
       // 'red_squares', 
       'white_line',
-      'triangles',
+      // 'triangles',
     ];
     this.color = c;
   }

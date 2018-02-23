@@ -7,12 +7,13 @@ const NUM_FRAMES = 5000;
 const DEBUG_MODE = true;
 
 let RADIUS;
-let LOBE_COUNT = 35;
+let LOBE_COUNT = 200;
 let mandala;
 
 function setup() {
   createCanvas(1200, 1200);
-  background(51);
+  // background(31, 42, 62);
+  background(255);
   noiseSeed(NOISE_SEED);
   randomSeed(RANDOM_SEED);
 
