@@ -6,8 +6,9 @@ class Slice {
     this.layers = [
       // 'green_circle',
       // 'red_squares', 
-      'white_line',
+      // 'white_line',
       // 'triangles',
+      'walker',
     ];
     this.color = c;
   }

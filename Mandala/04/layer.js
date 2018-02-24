@@ -1,10 +1,24 @@
-const STROKE_WEIGHT = 2.5;
+const STROKE_WEIGHT = 2.0;
 
 LAYERS = {
   'red_squares': red_squares,
   'triangles': triangles,
   'green_circle': green_circle,
-  'white_line': white_line
+  'white_line': white_line,
+  'walker': walker,
+}
+
+function walker(r, theta, c) {
+  let h = TWO_PI / theta;
+  let segments = 30;
+  let radius = r * 0.85;
+  for (let i = 0; i < segments; i++) {
+    stroke(c);
+    strokeWeight((STROKE_WEIGHT / segments * i) + 0.5);
+    let x = radius / segments * i;
+    let y = cos(theta) * x / segments * i;
+    line(x, y, x, -y);
+  }
 }
 
 function red_squares(r, theta) {

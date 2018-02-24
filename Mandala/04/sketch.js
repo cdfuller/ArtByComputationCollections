@@ -7,7 +7,7 @@ const NUM_FRAMES = 5000;
 const DEBUG_MODE = true;
 
 let RADIUS;
-let LOBE_COUNT = 200;
+let LOBE_COUNT = 10;
 let mandala;
 
 function setup() {
