@@ -8,14 +8,15 @@ class Slice {
       // 'red_squares', 
       // 'white_line',
       // 'triangles',
-      'walker',
+      // 'walker',
+      'curve',
     ];
     this.color = c;
   }
 
   draw(c) {
 
-    this.layers.forEach((layer) => {
+    this.layers.forEach((layer, i, arr) => {
       push();
         LAYERS[layer](this.radius, this.theta, c);
       pop();

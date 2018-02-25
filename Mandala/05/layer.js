@@ -6,6 +6,35 @@ LAYERS = {
   'green_circle': green_circle,
   'white_line': white_line,
   'walker': walker,
+  'curve': curveLine,
+}
+
+function curveLine(r, theta, c) {
+  // strokeWeight(STROKE_WEIGHT);
+  // noStroke();
+  let layerCount = 10;
+  for (let i = layerCount; i > 0; i--) {
+    let c = getColor();
+    fill(c);
+    stroke(c);
+    strokeWeight(10);
+    let l = r / layerCount * i;
+    let startX = l;
+    let startY = 0;
+    let endX = l * cos(theta);
+    let endY = l * sin(theta);
+    // line(l, 0, x, y);
+    beginShape();
+      vertex(0, 0);
+      vertex(startX, startY);
+      for (let j = 0; j < 5; j++) {
+        let x = random(startX, endX);
+        let y = random(startY, endY);
+        curveVertex(x, y);
+      }
+      vertex(endX, endY);
+    endShape();
+  }
 }
 
 function walker(r, theta, c) {

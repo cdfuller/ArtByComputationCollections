@@ -12,8 +12,8 @@ let mandala;
 
 function setup() {
   createCanvas(1200, 1200);
-  // background(31, 42, 62);
-  background(255);
+  background(31, 42, 62);
+  // background(255);
   noiseSeed(NOISE_SEED);
   randomSeed(RANDOM_SEED);
 
@@ -52,4 +52,19 @@ function keyPressed() {
     default:
       break;
   }
+}
+
+
+let colorIndex = 0;
+function getColor() {
+  let gentle_pride = [
+    [242, 82, 53],
+    [238, 170, 86],
+    [238, 232, 96],
+    [100, 242, 138],
+    [99, 148, 231],
+  ]
+  let palette = gentle_pride;
+  let c = palette[colorIndex++ % palette.length];
+  return [...c, 255];
 }

@@ -23,9 +23,9 @@ class Mandala {
     translate(width/2, height/2);
     this.slices.forEach((slice, i) => {
       push();
-        // console.log(i, this.theta * i);
-        // let c = palette[this.colorIndex++ % palette.length];
-        let c = [0, 0, 0, 255];
+        console.log(i, this.theta * i);
+        let c = palette[this.colorIndex++ % palette.length];
+        // let c = [0, 0, 0, 255];  
         rotate(this.theta * i);
         slice.draw(c);
       pop();
