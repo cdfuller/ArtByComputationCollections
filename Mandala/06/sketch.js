@@ -7,13 +7,13 @@ const NUM_FRAMES = 5000;
 const DEBUG_MODE = true;
 
 let RADIUS;
-let LOBE_COUNT = 10;
+let LOBE_COUNT = 12;
 let mandala;
 
 function setup() {
   createCanvas(1200, 1200);
-  background(31, 42, 62);
-  // background(255);
+  // background(31, 42, 62);
+  background(255);
   noiseSeed(NOISE_SEED);
   randomSeed(RANDOM_SEED);
 
@@ -64,7 +64,15 @@ function getColor() {
     [100, 242, 138],
     [99, 148, 231],
   ]
-  let palette = gentle_pride;
+let kiwis = [
+  [212, 75, 29],
+  [251, 112, 53],
+  [155, 210, 32],
+  [42, 150, 121],
+  [21, 120, 93],
+]
+  let palette = kiwis;
   let c = palette[colorIndex++ % palette.length];
+  // let c = [0, 0, 0];
   return [...c, 255];
 }

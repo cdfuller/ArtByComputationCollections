@@ -13,27 +13,34 @@ function curveLine(r, theta, c) {
   // strokeWeight(STROKE_WEIGHT);
   // noStroke();
   let layerCount = 10;
-  for (let i = layerCount; i > 0; i--) {
+  for (let i = layerCount; i > 1; i--) {
     let c = getColor();
     fill(c);
-    stroke(c);
-    strokeWeight(10);
+    // stroke(c);
+    strokeWeight(STROKE_WEIGHT);
+    noStroke();
+    // noFill();
     let l = r / layerCount * i;
     let startX = l;
     let startY = 0;
     let endX = l * cos(theta);
     let endY = l * sin(theta);
+    // ellipse(0, 0, 20);
     // line(l, 0, x, y);
     beginShape();
       vertex(0, 0);
       vertex(startX, startY);
-      for (let j = 0; j < 5; j++) {
-        let x = random(startX, endX);
-        let y = random(startY, endY);
-        curveVertex(x, y);
-      }
+      vertex(startX + 100, startY);
+      vertex(startX, startY+100);
+      // let waypoints = 5;
+      // for (let j = 1; j < waypoints; j++) {
+      //   let range = endX - startX;
+      //   let x = startX;
+      //   let y = range / waypoints * j;
+      //   vertex(x, y);
+      // }
       vertex(endX, endY);
-    endShape();
+    endShape(CLOSE);
   }
 }
 
