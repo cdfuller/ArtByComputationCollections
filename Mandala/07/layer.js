@@ -10,35 +10,40 @@ LAYERS = {
 }
 
 function curveLine(r, theta, c) {
+  r = r * 0.9;
   // strokeWeight(STROKE_WEIGHT);
   // noStroke();
-  let layerCount = 10;
-  for (let i = layerCount; i > 1; i--) {
+  let layerCount = 15;
+  for (let i = layerCount; i > 0; i--) {
     let c = getColor();
-    fill(c);
-    // stroke(c);
     strokeWeight(STROKE_WEIGHT);
-    noStroke();
+    // stroke(c);
     // noFill();
+    fill(c);
+    noStroke();
     let l = r / layerCount * i;
     let startX = l;
     let startY = 0;
     let endX = l * cos(theta);
     let endY = l * sin(theta);
-    // ellipse(0, 0, 20);
-    // line(l, 0, x, y);
+    let midpointX = (startX + endX) / 2;
+    let midpointY = (startY + endY) / 2;
     beginShape();
       vertex(0, 0);
       vertex(startX, startY);
-      vertex(startX + 100, startY);
-      vertex(startX, startY+100);
-      // let waypoints = 5;
-      // for (let j = 1; j < waypoints; j++) {
-      //   let range = endX - startX;
-      //   let x = startX;
-      //   let y = range / waypoints * j;
-      //   vertex(x, y);
-      // }
+      let waypoints = 5;
+      for (let j = 1; j < waypoints; j++) {
+        let x, y;
+        let d = 0;
+        if (j % 2 == 0) {
+          d = j*10;
+        } else {
+          d = j*10;
+        }
+        x = midpointX + d;
+        y = midpointY + d;
+        curveVertex(x, y);
+      }
       vertex(endX, endY);
     endShape(CLOSE);
   }
