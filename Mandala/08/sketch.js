@@ -7,13 +7,13 @@ const NUM_FRAMES = 5000;
 const DEBUG_MODE = true;
 
 let RADIUS;
-let LOBE_COUNT = 25;
+let LOBE_COUNT = 6;
 let mandala;
 
 function setup() {
   createCanvas(1200, 1200);
-  background(31, 42, 62);
-  // background(255);
+  // background(31, 42, 62);
+  background(255);
   noiseSeed(NOISE_SEED);
   randomSeed(RANDOM_SEED);
 
@@ -63,16 +63,16 @@ function getColor() {
     [238, 232, 96],
     [100, 242, 138],
     [99, 148, 231],
-  ]
-let vibrant = [
-  [23, 222, 238],
-  [255, 127, 80],
-  [255, 65, 98],
-  [236, 242, 132],
-  [16, 174, 178],
+  ];
+let burple = [
+  [83, 19, 98],
+  [129, 76, 197],
+  [66, 0, 63],
+  [80, 61, 131],
+  [52, 28, 94],
 ]
-  let palette = vibrant;
-  let c = palette[colorIndex++ % palette.length];
-  // let c = [0, 0, 0];
+  let palette = burple;
+  // let c = palette[colorIndex++ % palette.length];
+  let c = [0, 0, 0];
   return [...c, 255];
 }

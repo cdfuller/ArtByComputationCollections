@@ -17,10 +17,15 @@ function curveLine(r, theta, c) {
   for (let i = layerCount; i > 0; i--) {
     let c = getColor();
     strokeWeight(STROKE_WEIGHT);
-    // stroke(c);
-    // noFill();
-    fill(c);
-    noStroke();
+    if (i % 2 == 0) {
+      fill(255, 255, 255);
+      // noStroke();
+      // stroke(c);
+      // noFill();
+    } else {
+      fill(c);
+      noStroke();
+    }
     let l = r / layerCount * i;
     let startX = l;
     let startY = 0;
@@ -36,13 +41,13 @@ function curveLine(r, theta, c) {
         let x, y;
         let d = 0;
         if (j % 2 == 0) {
-          d = j*10;
+          d = j**3;
         } else {
-          d = j*10;
+          d = - (j**3);
         }
         x = midpointX + d;
         y = midpointY + d;
-        curveVertex(x, y);
+        vertex(x, y);
       }
       vertex(endX, endY);
     endShape(CLOSE);
