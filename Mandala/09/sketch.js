@@ -7,7 +7,7 @@ const NUM_FRAMES = 5000;
 const DEBUG_MODE = true;
 
 let RADIUS;
-let LOBE_COUNT = 6;
+let LOBE_COUNT = 300;
 let mandala;
 
 function setup() {
@@ -54,6 +54,18 @@ function keyPressed() {
   }
 }
 
+let ugly = [
+  [242, 82, 53],
+  [238, 170, 86],
+  [238, 232, 96],
+  [100, 242, 138],
+  [99, 148, 231],
+  [83, 19, 98],
+  [129, 76, 197],
+  [66, 0, 63],
+  [80, 61, 131],
+  [52, 28, 94],
+]
 
 let colorIndex = 0;
 function getColor() {
@@ -71,8 +83,8 @@ let burple = [
   [80, 61, 131],
   [52, 28, 94],
 ]
-  let palette = burple;
-  // let c = palette[colorIndex++ % palette.length];
-  let c = [0, 0, 0];
+  let palette = ugly;
+  let c = palette[colorIndex++ % palette.length];
+  // let c = [0, 0, 0];
   return [...c, 255];
 }

@@ -1,7 +1,7 @@
 class Slice {
 
   constructor(r, theta, c) {
-    this.radius = r*0.98;
+    this.radius = r*2;
     this.theta = theta;
     this.layers = [
       // 'green_circle',
@@ -9,7 +9,8 @@ class Slice {
       // 'white_line',
       // 'triangles',
       // 'walker',
-      'curve',
+      // 'curve',
+      'pedals',
     ];
     this.color = c;
   }

@@ -7,6 +7,36 @@ LAYERS = {
   'white_line': white_line,
   'walker': walker,
   'curve': curveLine,
+  'pedals': pedals,
+}
+
+function pedals(r, theta, c) {
+  let layerCount = 25;
+  let prevX1, prevY1, prevX2, prevY2;
+  for (let i = 0; i < layerCount; i++) {
+    let col = getColor();
+    noStroke();
+    fill(col);
+    // for (let j = 0, k = 100; j <= 100; j++, k--) {
+    //   let x1 = cos(theta + j/100) * r/layerCount*i/100*j;
+    //   let y1 = sin(theta + j/100) * r/layerCount*i/100*j;
+    //   let x2 = cos(theta + k/100) * r/layerCount*i/100*k;
+    //   let y2 = sin(theta + k/100) * r/layerCount*i/100*k;
+
+    //   if (j > 1) {
+    //     line(x1, y1, prevX1, prevY1);
+    //     line(x2, y2, prevX2, prevY2);
+    //   }
+    //   prevX1 = x1;
+    //   prevY1 = y1;
+    //   prevX2 = x2;
+    //   prevY2 = y2;
+    // }
+
+    let x = cos(theta) * (r) / layerCount * i;
+    let y = sin(theta) * (r) / layerCount * i;
+    ellipse(x, y, r/layerCount);
+  }
 }
 
 function curveLine(r, theta, c) {
@@ -33,21 +63,27 @@ function curveLine(r, theta, c) {
     let endY = l * sin(theta);
     let midpointX = (startX + endX) / 2;
     let midpointY = (startY + endY) / 2;
+    let rangeX = endX - startX;
+    let rangeY = endY - startY;
     beginShape();
       vertex(0, 0);
       vertex(startX, startY);
       let waypoints = 5;
-      for (let j = 1; j < waypoints; j++) {
+      for (let j = 0; j < waypoints; j++) {
         let x, y;
         let d = 0;
-        if (j % 2 == 0) {
-          d = j**3;
-        } else {
-          d = - (j**3);
-        }
-        x = midpointX + d;
-        y = midpointY + d;
-        vertex(x, y);
+        // if (j % 2 == 0) {
+          d = j**3
+          x = startX + (rangeX / waypoints) * j + d;
+          y = startY + (rangeY / waypoints) * j + d;
+          curveVertex(x, y);
+        // if (j % 2 == 0) {
+        // } else {
+        //   d = j**3;
+        //   x = midpointX + d;
+        //   y = midpointY + d;
+        //   // curveVertex(x, y);
+        // }
       }
       vertex(endX, endY);
     endShape(CLOSE);
