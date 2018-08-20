@@ -20,7 +20,7 @@ function setup() {
   createCanvas(800, 800);
   ellipseMode(CORNER);
   background(41, 42, 68);
-  noiseSeed(10002);
+  // noiseSeed(10002);
 
   flowfield = new FlowField(FIELD_SIZE);
 

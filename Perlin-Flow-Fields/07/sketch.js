@@ -10,7 +10,7 @@ let starting_points;
 function setup() {
   createCanvas(800, 800);
   background(255);
-  noiseSeed(1002);
+  // noiseSeed(1002);
   // noiseDetail(16); 
   starting_points = [
     {x: width/4, y: height/4},

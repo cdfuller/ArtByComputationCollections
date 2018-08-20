@@ -15,7 +15,7 @@ function setup() {
   colorMode(HSB)
   ellipseMode(CENTER);
   background(255);
-  noiseSeed(1002);
+  // noiseSeed(1002);
   noiseDetail(8, 0.10); 
   frameRate(120);
 

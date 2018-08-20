@@ -17,7 +17,7 @@ function setup() {
   // colorMode(HSB)
   ellipseMode(CENTER);
   background(255);
-  noiseSeed(1002);
+  // noiseSeed(1002);
 
   flowfield = new FlowField(FIELD_SIZE);
   // maxDist = ((width / 2) ** 2 + (height / 2) ** 2) ** 0.5;

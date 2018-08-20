@@ -27,7 +27,7 @@ function setup() {
   // colorMode(HSB)
   ellipseMode(CENTER);
   background(255);
-  noiseSeed(1002);
+  // noiseSeed(1002);
   pixelDensity(1);
 
   flowfield = new FlowField(FIELD_SIZE);

@@ -20,7 +20,7 @@ function setup() {
   createCanvas(800, 800);
   colorMode(HSB)
   background(255);
-  noiseSeed(1002);
+  // noiseSeed(1002);
   rectMode(CORNERS);
 
   flowfield = new FlowField(FIELD_SIZE);

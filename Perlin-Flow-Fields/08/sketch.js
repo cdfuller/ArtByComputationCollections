@@ -13,7 +13,7 @@ function setup() {
   // background(0);
   background([65, 0, 75, 255]);
   // background(255);
-  noiseSeed(1002);
+  // noiseSeed(1002);
   noiseDetail(16); 
   starting_points = [
     {x: width/4, y: height/4},

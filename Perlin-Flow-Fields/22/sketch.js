@@ -25,7 +25,7 @@ function setup() {
   // colorMode(HSB)
   background(255);
   // background(254, 251, 254);
-  noiseSeed(1002);
+  // noiseSeed(1002);
   rectMode(CORNERS);
 
   flowfield = new FlowField(FIELD_SIZE);

@@ -11,7 +11,7 @@ let flowfield;
 function setup() {
   createCanvas(800, 800);
   background(0);
-  noiseSeed(1002);
+  // noiseSeed(1002);
   noiseDetail(16);
 
   flowfield = new FlowField(FIELD_SIZE);
